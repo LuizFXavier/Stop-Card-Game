@@ -1,0 +1,1 @@
+export type colocacao = {playerName:string, pontos:number}
