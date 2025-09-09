@@ -1,52 +1,90 @@
 <script lang="ts">
-	import { PUBLIC_URL } from "$env/static/public";
-	import Multiplayer from "../connection/Multiplayer";
-
-
-    let estado: 'inicio' | 'entrar_sala' = $state('inicio')
-    let entrar_salaID:string = $state('')
-    let playerName:string = $state('')
-
-    if(!Multiplayer.socket){
-        Multiplayer.init(PUBLIC_URL)
-    }
-    
+  let estado: "inicio" | "escolha_usuario" = $state('inicio')
 </script>
-<h1>
-    Stop!
-</h1>
+<main class="main_background">
+  <header class = "logo">
+      <span class = "logo_span">
+        STOP
+      </span>
+    
+  </header>
 
-<main>
+  {#if estado == 'inicio'}
+    <button class = "main_button" onclick={()=> estado = 'escolha_usuario'}>
+      <span class="button_span">
+        Play
+      </span>
+    </button>
+  {:else}
+    <button class = "main_button" onclick={()=> estado = 'inicio'}>
+      <span class="button_span">
+        Login/Sign Up
+      </span>
+    </button>
 
-    {#if estado === 'inicio'}
-        <button onclick={()=>{estado = 'entrar_sala'}}>
-            Jogar
-        </button>
-    {:else if estado === 'entrar_sala'}
-        <form action="">
-
-            <label>
-                Seu nome
-                <input type='text' name="playerName" bind:value={playerName}/>
-            </label>
-            <br>
-            <label>
-                Código da sala
-                <input type='text' bind:value={entrar_salaID}/>
-            </label>
-            
-            <button onclick={()=>{
-                localStorage.setItem("playerName", playerName)
-                location.href = `/room/${entrar_salaID}`}}>
-                ENTRAR
-            </button>
-            <br>
-            <button onclick={()=>{
-                    localStorage.setItem("playerName", playerName)
-                    location.href = '/room/create'}}>
-                Criar nova sala
-            </button>
-        </form>
-        
-    {/if}
+    <button class = "anonymous_button" onclick={()=> estado = 'inicio'}>
+      <span class="button_span">
+        Anonymously
+      </span>
+    </button>
+  {/if}
 </main>
+
+
+<style>
+
+.logo {
+  width: 30%;
+  height: 20%;
+  margin-top: 2%;
+  display: flex;
+  background: #EF4637;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  container-type: inline-size;
+  /* container-name: logo-header; */
+}
+
+.logo_span {
+  color: white;
+  font-size: 35cqw;
+  font-family: Rajdhani;
+  font-weight: bolder;
+  word-wrap: break-word;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.main_button {
+  margin-top: 15%;
+  width: 20%;
+  height: 10%;
+  align-items: center;
+  background: #018BF6;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  container-type: inline-size;
+}
+
+.button_span{
+  color: white;
+  font-size: 13.5cqw;
+  font-family: Rajdhani;
+  font-weight: 700;
+  word-wrap: break-word;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.anonymous_button {
+  margin-top: 2%;
+  width: 20%;
+  height: 10%;
+  align-items: center;
+  background: #667A78;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  container-type: inline-size;
+}
+</style>
