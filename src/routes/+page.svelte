@@ -1,4 +1,5 @@
 <script lang="ts">
+  import UserChoice from "./UserChoice.svelte";
   let estado: "inicio" | "escolha_usuario" = $state('inicio')
 </script>
 <main class="main_background">
@@ -15,23 +16,29 @@
         Play
       </span>
     </button>
-  {:else}
-    <button class = "main_button" onclick={()=> estado = 'inicio'}>
-      <span class="button_span">
-        Login/Sign Up
-      </span>
-    </button>
-
-    <button class = "anonymous_button" onclick={()=> estado = 'inicio'}>
-      <span class="button_span">
-        Anonymously
-      </span>
-    </button>
+    {:else}
+      <UserChoice></UserChoice>
   {/if}
 </main>
 
 
 <style>
+.main_background {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  
+  background-image: url('/balatro.jpeg');
+  background-size: cover;
+  background-position: center center;
+  
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
 
 .logo {
   width: 30%;
@@ -75,16 +82,5 @@
   font-weight: 700;
   word-wrap: break-word;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-.anonymous_button {
-  margin-top: 2%;
-  width: 20%;
-  height: 10%;
-  align-items: center;
-  background: #667A78;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 14px;
-  container-type: inline-size;
 }
 </style>

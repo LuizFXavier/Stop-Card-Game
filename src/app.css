@@ -1,0 +1,27 @@
+.faded_background {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  background: linear-gradient(rgba(100, 100, 100, 0.6), rgba(100, 100, 100, 0.6)), url('/balatro.jpeg');
+  background-size: cover;
+  background-position: center center;
+  
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.gray_box {
+  width: 50%;
+  height: 80%;
+  top: 5%;
+  position: absolute;
+  background: #38474E;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.50);
+  border-radius: 28px;
+  border: 8px #B5C1D2 solid;
+  align-items: center;
+}

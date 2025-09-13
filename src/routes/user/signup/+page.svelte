@@ -1,4 +1,4 @@
-<!-- <div class="sign-up-com-placeholder">
+<!-- <div class="sign-up">
   <div class="box"></div>
   <div class="options"><span class="options_span">Sign Up</span></div>
   <div data-property-1="Default" class="back">
@@ -20,44 +20,36 @@
   <div class="nome-da-label_01"><span class="nomedalabel_01_span">Confirm Password</span></div>
 </div> -->
 
-<main class="gray_background">
-    <section class="box">
-        
-    </section>
+<main>
+  <header>
+    <span class = "header_span">
+      Sign Up
+    </span>
+  </header>
 </main>
 
-
-
 <style>
-.box {
-  width: 919px;
-  height: 1000px;
-  left: 500px;
-  top: 40px;
+
+header {
   position: absolute;
-  background: #38474E;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.50);
-  border-radius: 28px;
-  border: 8px #B5C1D2 solid;
+  text-align: center;
+  
+  display: flex;
+  flex-direction:row;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  container-type: inline-size;
 }
 
-.options_span {
+.header_span {
   color: white;
   font-size: 64px;
   font-family: Rajdhani;
   font-weight: 700;
   word-wrap: break-word;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-.options {
-  left: 869px;
-  top: 76px;
-  position: absolute;
   text-align: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
 }
 
 .button {
@@ -123,8 +115,8 @@
 .button_02 {
   width: 764px;
   height: 87px;
-  left: 579px;
-  top: 548px;
+  left: 79px;
+  top: 508px;
   position: absolute;
   background: #1F2A2C;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -143,8 +135,8 @@
 .placeholder {
   width: 764px;
   height: 87px;
-  left: 579px;
-  top: 548px;
+  left: 79px;
+  top: 508px;
   position: absolute;
   text-align: center;
   justify-content: center;
@@ -162,8 +154,8 @@
 }
 
 .nome-da-label {
-  left: 873px;
-  top: 452px;
+  left: 373px;
+  top: 412px;
   position: absolute;
   text-align: center;
   justify-content: center;
@@ -174,8 +166,8 @@
 .button_03 {
   width: 764px;
   height: 87px;
-  left: 579px;
-  top: 317px;
+  left: 79px;
+  top: 277px;
   position: absolute;
   background: #1F2A2C;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -194,8 +186,8 @@
 .placeholder_01 {
   width: 764px;
   height: 87px;
-  left: 579px;
-  top: 317px;
+  left: 79px;
+  top: 277px;
   position: absolute;
   text-align: center;
   justify-content: center;
@@ -213,8 +205,8 @@
 }
 
 .options_03 {
-  left: 848px;
-  top: 236px;
+  left: 348px;
+  top: 196px;
   position: absolute;
   text-align: center;
   justify-content: center;
@@ -225,8 +217,8 @@
 .button_04 {
   width: 764px;
   height: 87px;
-  left: 579px;
-  top: 763px;
+  left: 79px;
+  top: 723px;
   position: absolute;
   background: #1F2A2C;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -245,8 +237,8 @@
 .placeholder_02 {
   width: 764px;
   height: 87px;
-  left: 579px;
-  top: 763px;
+  left: 79px;
+  top: 723px;
   position: absolute;
   text-align: center;
   justify-content: center;
@@ -264,8 +256,8 @@
 }
 
 .nome-da-label_01 {
-  left: 798px;
-  top: 667px;
+  left: 298px;
+  top: 627px;
   position: absolute;
   text-align: center;
   justify-content: center;
@@ -276,8 +268,8 @@
 .back {
   width: 307px;
   height: 71px;
-  left: 1034px;
-  top: 928px;
+  left: 534px;
+  top: 888px;
   position: absolute;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.50);
 }
@@ -285,15 +277,15 @@
 .back_01 {
   width: 307px;
   height: 71px;
-  left: 578px;
-  top: 928px;
+  left: 78px;
+  top: 888px;
   position: absolute;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.50);
 }
 
-.sign-up-com-placeholder {
-  width: 1920px;
-  height: 1080px;
+.sign-up {
+  width: 919px;
+  height: 1000px;
   position: relative;
 }
 </style>
