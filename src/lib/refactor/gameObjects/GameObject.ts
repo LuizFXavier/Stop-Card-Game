@@ -5,5 +5,4 @@ export default abstract class GameObject{
         this.x = x;
         this.y = y;
     }
-    public abstract render():void
 }
