@@ -22,17 +22,28 @@ export class GameRenderer {
    * @param card O objeto Card que será desenhado
    */
   public drawCard(card: Card): void {
+
+    let sx, sy;
+
+    if(card.isUp){
+      sx = card.srcCoord.x;
+      sy = card.srcCoord.y;
+    }
+    else{
+      sx = Card.faceDownCoord.x;
+      sy = Card.faceDownCoord.y;
+    }
     
     this.ctx.drawImage(
       this.cardSheet, // 1. A imagem *inteira* (sprite sheet)
-      card.srcCoord.x,        // 2. Source X (de onde recortar)
-      card.srcCoord.y,        // 3. Source Y (de onde recortar)
+      sx,             // 2. Source X (de onde recortar)
+      sy,             // 3. Source Y (de onde recortar)
       Card.WIDTH_SPR,    // 4. Source Width (largura do recorte)
       Card.HEIGHT_SPR,   // 5. Source Height (altura do recorte)
-      card.x,             // 6. Destination X (onde desenhar)
-      card.y,             // 7. Destination Y (onde desenhar)
-      card.width,    // 8. Destination Width (tamanho final)
-      card.height    // 9. Destination Height (tamanho final)
+      card.x,            // 6. Destination X (onde desenhar)
+      card.y,            // 7. Destination Y (onde desenhar)
+      card.width,     // 8. Destination Width (tamanho final)
+      card.height     // 9. Destination Height (tamanho final)
     );
   }
   

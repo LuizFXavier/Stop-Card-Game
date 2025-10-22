@@ -8,6 +8,8 @@ export default class Card extends GameObject{
     public static WIDTH_SPR:number = 71;
     public static HEIGHT_SPR:number = 101;
 
+    public static faceDownCoord = {x:this.WIDTH_SPR * 13, y:0};
+
     public rank:Rank;
     public suit:Suit;
     public isUp:boolean = false;

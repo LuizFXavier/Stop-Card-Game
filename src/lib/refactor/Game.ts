@@ -8,7 +8,9 @@ class Game{
     
     private players:Player[] = [] // Estado do jogo
 
-    
+    private mainPlayerID:number = 0;
+    private currentTurn:number = 0;
+
     public renderer!: GameRenderer;
 
     private assetManager!:AssetManager;
