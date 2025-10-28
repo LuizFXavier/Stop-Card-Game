@@ -42,8 +42,8 @@ export class GameRenderer {
       Card.HEIGHT_SPR,   // 5. Source Height (altura do recorte)
       card.x,            // 6. Destination X (onde desenhar)
       card.y,            // 7. Destination Y (onde desenhar)
-      card.width,     // 8. Destination Width (tamanho final)
-      card.height     // 9. Destination Height (tamanho final)
+      Card.width,     // 8. Destination Width (tamanho final)
+      Card.height     // 9. Destination Height (tamanho final)
     );
   }
   
