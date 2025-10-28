@@ -3,6 +3,7 @@ import Player from "./gameObjects/Player";
 import { GameRenderer } from "./system/GameRenderer";
 import Mouse from "./system/Mouse";
 import NetworkManager from "./system/NetworkManager";
+import type { InitData, JoinData } from "./types/InitData";
 
 class Game{
     
@@ -15,22 +16,34 @@ class Game{
 
     private assetManager!:AssetManager;
 
-    public async start(canvasId:string){
+    private networkManager!:NetworkManager;
 
+    public async initialize(canvasId:string, initData:InitData){
         const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
         canvas.width = window.innerWidth
         canvas.height = window.innerHeight
 
         const ctx = canvas.getContext('2d')!;
-
+        
         this.assetManager = AssetManager.instance;
         await this.assetManager.loadAssets();
         
         this.renderer = new GameRenderer(ctx);
-        
-        this.players.push(new Player(100, 100, 1));
+        this.networkManager = new NetworkManager();
 
-        const nt:NetworkManager = new NetworkManager();
+        this.start(initData);
+    }
+
+    public setup(joinData:JoinData){
+        this.mainPlayerID = joinData.identifier;
+    }
+
+    private start(initData:InitData){
+        
+        for(let i = 0; i < initData.cards.length; ++i){
+            this.players.push(new Player(0, i * 300, i, initData.cards[i]));
+        }
+        console.log(this.renderer)
 
         this.loop();
     }
