@@ -5,17 +5,17 @@ import GameObject from "./GameObject";
 
 export default class Card extends GameObject{
 
-    public static WIDTH_SPR:number = 71;
-    public static HEIGHT_SPR:number = 101;
+    public static WIDTH_SPR:number = 616;
+    public static HEIGHT_SPR:number = 823;
 
     public static faceDownCoord = {x:this.WIDTH_SPR * 13, y:0};
 
     public rank:Rank;
     public suit:Suit;
-    public isUp:boolean = false;
+    public isUp:boolean = true;
 
-    public width = Card.WIDTH_SPR;
-    public height = Card.HEIGHT_SPR;
+    public static width = Card.WIDTH_SPR / 4;
+    public static height = Card.HEIGHT_SPR / 4;
 
     public srcCoord:{x:number, y:number};
 
@@ -40,7 +40,9 @@ export default class Card extends GameObject{
     }
     
     public collision():boolean{
-        return Collision.rectangleCollision(this, Mouse) && Mouse.clicked;
+        return Collision.rectangleCollision({x:this.x, y:this.y, width:Card.width, height:Card.height},
+             Mouse) 
+             && Mouse.clicked;
     }
 
 }

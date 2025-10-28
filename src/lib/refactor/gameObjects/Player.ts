@@ -1,7 +1,7 @@
 import GameObject from "./GameObject";
 import { gameEventBus } from "../core/GameEventBus";
 import Card from "./Card";
-import { Suit } from "../types/CardProperties";
+import { Suit, type Rank } from "../types/CardProperties";
 
 export default class Player extends GameObject{
     
@@ -9,18 +9,20 @@ export default class Player extends GameObject{
 
     public hand:Card[] = [];
 
-    constructor(x:number, y:number, id:number){
+    constructor(x:number, y:number, id:number, cards:{rank:Rank, suit:Suit}[]){
         super(x, y);
-        this.id = id;
         
-        this.hand.push(new Card(2, Suit.Clubs))
-        this.hand[0].setCoords(x, y)
+        this.id = id;
+        for(let i = 0; i < cards.length; ++i){
+            this.hand.push(new Card(cards[i].rank, cards[i].suit));
+            this.hand[i].setCoords(x + i * (Card.width + 10), y);
+        }
     }
 
     public update(): void{
         for(let i = 0; i < this.hand.length; ++i){
             if(this.hand[i].collision()){
-                gameEventBus.emit('player:cut', {playerId:this.id, cardIndex:i})
+                gameEventBus.emit('player:cut', {playerId:this.id, cardIndex:i});
             }
         }
     };
