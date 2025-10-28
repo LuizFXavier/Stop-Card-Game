@@ -13,7 +13,7 @@ export class AssetManager {
   public cardSpriteSheet: HTMLImageElement | null = null;
   
   // Caminho para a imagem
-  private spriteSheetUrl = '/assets/do_meu_avo2.png';
+  private spriteSheetUrl = '/assets/do_meu_avo_final.png';
 
   /**
    * Carrega todos os assets essenciais do jogo.
