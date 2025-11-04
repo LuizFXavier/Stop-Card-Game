@@ -13,6 +13,7 @@ export default class Card extends GameObject{
     public rank:Rank;
     public suit:Suit;
     public isUp:boolean = true;
+    public valid:boolean = true;
 
     public static width = Card.WIDTH_SPR / 4;
     public static height = Card.HEIGHT_SPR / 4;
@@ -32,6 +33,9 @@ export default class Card extends GameObject{
         this.suit = suit;
 
         this.srcCoord = {x:Card.WIDTH_SPR * rank, y:Card.HEIGHT_SPR * suit}
+    }
+    public setValid(b:boolean){
+        this.valid = b;
     }
 
     public setCoords(x:number, y:number){

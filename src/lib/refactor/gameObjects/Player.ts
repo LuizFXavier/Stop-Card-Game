@@ -7,6 +7,8 @@ export default class Player extends GameObject{
     
     private id:number;
 
+    public drawnCard:Card;
+
     public hand:Card[] = [];
 
     constructor(x:number, y:number, id:number, cards:{rank:Rank, suit:Suit}[]){
@@ -17,6 +19,15 @@ export default class Player extends GameObject{
             this.hand.push(new Card(cards[i].rank, cards[i].suit));
             this.hand[i].setCoords(x + i * (Card.width + 10), y);
         }
+
+        this.drawnCard = new Card(0,0);
+        this.drawnCard.setValid(false);
+    }
+    
+    buyCard(card:{rank:Rank, suit:Suit}){
+        
+        this.drawnCard.set(card.rank, card.suit);
+        this.drawnCard.setValid(true);
     }
 
     public update(): void{

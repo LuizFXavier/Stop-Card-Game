@@ -4,19 +4,16 @@ import { Suit, type Rank } from "../types/CardProperties";
 import type { JoinData } from "../types/InitData";
 export default class DummyServer{
     
-    // constructor(){
-    //     this.subscribeToGameEvents();
-    // }
     public static started:boolean = false;
 
     public static start(){
         if(!this.started){
-            this.subscribeToGameEvents();
+            this.subscribeToRoomEvents();
             this.started = true; 
         }
     }
 
-    public static subscribeToGameEvents(){
+    public static subscribeToRoomEvents(){
         roomEventBus.on('client:joinRoom', data =>{
             console.log("O player " + data.userID + " entrou na sala " + data.roomID)
             let players = [{name:"soos", id:0}, {name:"jonas", id:1}]
@@ -30,9 +27,29 @@ export default class DummyServer{
         roomEventBus.on("client:gameInit", ()=>{
             const cards = this.createPlayers(2, 2)
             console.log("Init")
-            roomEventBus.emit("server:gameInit", {cards:cards, stackSize:5, turn:0})
+            roomEventBus.emit("server:gameInit", {cards:cards, stackSize:5, turnId:0})
         })
     }
+
+    public static subscribeToGameEvents(){
+        gameEventBus.on("pile:buyStack", ()=>{
+            console.log("Player comprou da pilha")
+            
+            gameEventBus.emit("network:buyStack", {playerId:0, card:{rank:5, suit:1}});
+        })
+        gameEventBus.on("discard:buyDiscard", ()=>{
+            console.log("Player comprou do descarte")
+            
+            gameEventBus.emit("network:buyDiscard", {playerId:0, card:{rank:9, suit:3}});
+        })
+        gameEventBus.on("player:discard", ()=>{
+            console.log("Player descartou")
+
+            gameEventBus.emit("network:discard", {playerId:0})
+        })
+    }
+    
+
     private static createPlayers(nP:number, nC:number){
         type card = {rank:Rank, suit:Suit}
         let players:card[][] = []

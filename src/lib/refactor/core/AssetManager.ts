@@ -11,9 +11,11 @@ export class AssetManager {
   }
 
   public cardSpriteSheet: HTMLImageElement | null = null;
-  
+  public pileSpriteSheet: HTMLImageElement | null = null;
+
   // Caminho para a imagem
   private spriteSheetUrl = '/assets/do_meu_avo_final.png';
+  private pileSpriteUrl = '/assets/stack.png'
 
   /**
    * Carrega todos os assets essenciais do jogo.
@@ -22,8 +24,8 @@ export class AssetManager {
   public async loadAssets(): Promise<void> {
     try {
       this.cardSpriteSheet = await this.loadImage(this.spriteSheetUrl);
+      this.cardSpriteSheet = await this.loadImage(this.pileSpriteUrl);
       console.log('Sprite sheet das cartas carregado.');
-      
       
     } catch (error) {
       console.error("Falha ao carregar assets:", error);

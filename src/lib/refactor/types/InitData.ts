@@ -10,5 +10,5 @@ export type JoinData = {
 export type InitData = {
     cards:{rank:Rank, suit:Suit}[][],
                             stackSize:number,
-                            turn:number
+                            turnId:number
 }
