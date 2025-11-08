@@ -1,6 +1,11 @@
 <script lang="ts">
-	import Navigation from "../Navigation.svelte";
+	import { goto } from "$app/navigation";
+	import FooterNav from "$lib/components/FooterNav.svelte";
   import Form from "./Form.svelte";
+
+	function handleNext(): void {
+		throw new Error("Function not implemented.");
+	}
 </script>
 
 <main>
@@ -11,9 +16,7 @@
   </header>
   <Form/>
 
-  <footer>
-    <Navigation/>
-  </footer>
+  <FooterNav labelR="Next" variant="next" onclickR={handleNext} onclickL={()=>{goto("/")}}/>
   
 </main>
 
@@ -24,20 +27,6 @@ main {
     width: 100%;
     display: flex;
     flex-direction: column;
-}
-
-footer{
-  margin-top: auto;
-  height: 10%;
-  width: 100%;
-
-  align-self: flex-start;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2%;
-  
-  position: relative;
 }
 
 header {

@@ -46,6 +46,18 @@ main{
   height: 100%;
 }
 
+:root{
+  --color-blue:#018BF6;
+  --color-red:#EF4637;
+  --color-green:#3A9F75;
+  --color-purple:#9E74CE;
+
+  --btn-red:var(--color-red);
+  --btn-blue:var(--color-blue);
+  --btn-green:var(--color-green);
+  --btn-purple:var(--color-purple);
+}
+
 ::-webkit-scrollbar {
     width: 1.4rem;
     border-radius: 1vw;
@@ -65,4 +77,14 @@ main{
     border-right: 0.4rem solid transparent;
     background-clip: content-box;
     border-radius: 1vw;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
 }
