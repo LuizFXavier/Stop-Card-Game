@@ -9,30 +9,48 @@ type ButtonEventName = keyof {
 };
 
 export default class Button extends GameObject{
-    eventName:ButtonEventName;
-    width:number;
-    height:number;
-    color:string;
-    visible:boolean = false;
+    private _eventName:ButtonEventName;
+    private _width:number;
+    private _height:number;
+    private _color:string;
+    private _visible:boolean = false;
 
     constructor(eventName:ButtonEventName, color:string, x:number, y:number, width:number, height:number){
         super(x, y);
         
-        this.eventName = eventName;
-        this.color = color;
+        this._eventName = eventName;
+        this._color = color;
 
-        this.width = width;
-        this.height = height;
+        this._width = width;
+        this._height = height;
     }
 
     update(){
         if(this.collision()){
-            gameEventBus.emit(this.eventName)
+            gameEventBus.emit(this._eventName);
         }
     }
 
+    show():void{this._visible = true;}
+    hide():void{this._visible = false;}
+
+    public get visible():boolean{
+        return this._visible;
+    }
+
+    public get color():string{
+        return this._color;
+    }
+
+    public get width():number{
+        return this._width;
+    }
+    public get height():number{
+        return this._height;
+    }
+
     collision():boolean{
-        if(!this.visible){
+        if(!this._visible){
             return false;
         }
         return Collision.rectangleCollision(this, Mouse) && Mouse.clicked;

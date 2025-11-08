@@ -1,7 +1,9 @@
 import Card from '../gameObjects/Card';
 import { AssetManager } from '../core/AssetManager';
 import type Player from '../gameObjects/Player';
-import type Pile from '../gameObjects/Pile';
+import Pile from '../gameObjects/Pile';
+import type Button from '../UI/Button';
+import type Discard from '../gameObjects/Discard';
 
 // todo: Renderizar pilhas e botões
 
@@ -27,6 +29,10 @@ export class GameRenderer {
    * @param card O objeto Card que será desenhado
    */
   public drawCard(card: Card): void {
+
+    if(!card.valid){
+      return;
+    }
 
     let sx, sy;
 
@@ -61,20 +67,37 @@ export class GameRenderer {
 
   public drawPlayer(player:Player){
     this.drawDeck(player.hand)
+    this.drawCard(player.drawnCard)
   }
 
   public drawPile(pile:Pile){
+    
     this.ctx.drawImage(
       this.pileSprite, // 1. A imagem *inteira* (sprite sheet)
       0,             // 2. Source X (de onde recortar)
       0,             // 3. Source Y (de onde recortar)
-      Card.WIDTH_SPR,    // 4. Source Width (largura do recorte)
-      Card.HEIGHT_SPR,   // 5. Source Height (altura do recorte)
+      Pile.WIDTH_SPR,    // 4. Source Width (largura do recorte)
+      Pile.HEIGHT_SPR,   // 5. Source Height (altura do recorte)
       pile.x,            // 6. Destination X (onde desenhar)
       pile.y,            // 7. Destination Y (onde desenhar)
       Card.width,     // 8. Destination Width (tamanho final)
       Card.height     // 9. Destination Height (tamanho final)
     );
+  }
+
+  public drawDiscard(discard:Discard){
+    
+    this.drawCard(discard.getTop()!);
+  }
+
+  public drawButton(button:Button){
+    if(!button.visible){
+      return;
+    }
+
+    this.ctx.fillStyle = button.color;
+    this.ctx.fillRect(button.x, button.y, button.width, button.height);
+
   }
 
   public clear(): void {

@@ -24,7 +24,7 @@ export class AssetManager {
   public async loadAssets(): Promise<void> {
     try {
       this.cardSpriteSheet = await this.loadImage(this.spriteSheetUrl);
-      this.cardSpriteSheet = await this.loadImage(this.pileSpriteUrl);
+      this.pileSpriteSheet = await this.loadImage(this.pileSpriteUrl);
       console.log('Sprite sheet das cartas carregado.');
       
     } catch (error) {
