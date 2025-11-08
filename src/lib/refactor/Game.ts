@@ -8,12 +8,14 @@ import Mouse from "./system/Mouse";
 import NetworkManager from "./system/NetworkManager";
 import type { Rank, Suit } from "./types/CardProperties";
 import type { InitData, JoinData } from "./types/InitData";
+import Button from "./UI/Button";
 
 class Game{
     
     private players:Player[] = [] // Estado do jogo
     private mainPile!:Pile;
     private discard!:Discard;
+    private btnDiscard!:Button;
 
     private mainPlayerID:number = 0;
     private turnId:number = 0;
@@ -36,21 +38,25 @@ class Game{
         const ctx = canvas.getContext('2d')!;
         
         this.assetManager = AssetManager.instance;
-        await this.assetManager.loadAssets();
-        
-        this.renderer = new GameRenderer(ctx);
-        this.networkManager = new NetworkManager(this.mainPlayerID);
+        await this.assetManager.loadAssets().then(()=>{
 
-        this.start(initData);
+            this.renderer = new GameRenderer(ctx);
+            this.networkManager = new NetworkManager(this.mainPlayerID);
+    
+            this.start(initData);
+        });
+        
     }
 
     private start(initData:InitData){
         
-        for(let i = 0; i < initData.cards.length; ++i){
-            this.players.push(new Player(0, i * 300, i, initData.cards[i]));
+        for(let i = 0; i < 1; ++i){
+            this.players.push(new Player(300, 300, i, initData.cards[i]));
         }
-        this.mainPile = new Pile(window.innerWidth * 3/4, window.innerHeight * 3/4);
-        this.discard = new Discard(window.innerWidth * 3/4, window.innerHeight * 3/4);
+        this.mainPile = new Pile(window.innerWidth * 3/4, window.innerHeight * 2.8/4);
+        this.discard = new Discard(window.innerWidth * 2.5/4, window.innerHeight * 2.8/4);
+
+        this.btnDiscard = new Button("player:discard", "#F00", 0, 500, 25, 15);
         
         this.subscribeToGameEvents();
         this.subscribeToNetworkEvents();
@@ -63,12 +69,22 @@ class Game{
     private subscribeToGameEvents(){
         gameEventBus.on("pile:buyStack", ()=>{
             this.discard.setClickable(false);
+            console.log("Compra da pilha")
+            this.btnDiscard.show();
             gameEventBus.emit("game:buyStack");
         })
 
         gameEventBus.on("discard:buyDiscard", ()=>{
             this.mainPile.setClickable(false);
             gameEventBus.emit("game:buyDiscard");
+        })
+
+        gameEventBus.on("player:discard", ()=>{
+            this.btnDiscard.hide();
+            const card = this.players[this.mainPlayerID].discardCard();
+            this.discard.receiveCard(card);
+            console.log("Carta descartada:", card)
+            gameEventBus.emit("game:discard");
         })
     }
 
@@ -100,15 +116,29 @@ class Game{
     }
 
     private loop(){
-        this.renderer.clear();
 
+        this.render();
+        
+        this.mainPile.update();
+        this.discard.update();
+        this.btnDiscard.update();
         for(let i = 0; i < this.players.length; ++i){
-            this.renderer.drawPlayer(this.players[i]);
             this.players[i].update();
         }
+        
         Mouse.clicked = false;
 
         requestAnimationFrame(()=>this.loop());
+    }
+    private render(){
+        this.renderer.clear();
+        this.renderer.drawButton(this.btnDiscard);
+        this.renderer.drawPile(this.mainPile);
+        this.renderer.drawDiscard(this.discard);
+
+        for(let i = 0; i < this.players.length; ++i){
+            this.renderer.drawPlayer(this.players[i]);
+        }
     }
 }
 const game = new Game();

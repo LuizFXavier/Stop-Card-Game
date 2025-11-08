@@ -7,7 +7,7 @@ export default class Player extends GameObject{
     
     private id:number;
 
-    public drawnCard:Card;
+    public drawnCard!:Card;
 
     public hand:Card[] = [];
 
@@ -20,14 +20,24 @@ export default class Player extends GameObject{
             this.hand[i].setCoords(x + i * (Card.width + 10), y);
         }
 
-        this.drawnCard = new Card(0,0);
-        this.drawnCard.setValid(false);
+        this.resetDrawnCard();
     }
     
     buyCard(card:{rank:Rank, suit:Suit}){
-        
+        console.log("Carta comprada:", card)
         this.drawnCard.set(card.rank, card.suit);
         this.drawnCard.setValid(true);
+    }
+    discardCard(){
+        const card = this.drawnCard;
+        this.resetDrawnCard();
+        return card;
+    }
+
+    resetDrawnCard(){
+        this.drawnCard = new Card(0,0);
+        this.drawnCard.isUp = true;
+        this.drawnCard.setValid(false);
     }
 
     public update(): void{

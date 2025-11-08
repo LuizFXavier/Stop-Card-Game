@@ -13,7 +13,8 @@ export default class Discard extends GameObject{
         super(x, y)
 
         const card = new Card(0, 0);
-        card.setCoords(0, 0);
+        card.setCoords(x, y);
+        card.setValid(false);
         this.cards.push(card);
     }
 
@@ -42,6 +43,11 @@ export default class Discard extends GameObject{
             this.clickable = false;
             gameEventBus.emit("discard:buyDiscard");
         }
+    }
+
+    receiveCard(card:Card){
+        card.setCoords(this.x, this.y)
+        this.cards.push(card);
     }
 
 }
