@@ -30,7 +30,7 @@
   padding: 0;
   margin: 0;
   
-  background-image: url('/balatro.jpeg');
+  background-image: url('/balatro_bg.gif');
   background-size: cover;
   background-position: center center;
   
@@ -46,8 +46,8 @@
   margin-top: 2%;
   display: flex;
   background: #EF4637;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 14px;
+  box-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+  border-radius: calc(1vw + 1vh);;
   text-align: center;
   justify-content: center;
   align-items: center;
@@ -61,7 +61,7 @@
   font-family: Rajdhani;
   font-weight: bolder;
   word-wrap: break-word;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  text-shadow: 0rem 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
 }
 
 .main_button {
@@ -70,17 +70,17 @@
   height: 10%;
   align-items: center;
   background: #018BF6;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 14px;
+  box-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+  border-radius: calc(1vw + 1vh);
   container-type: inline-size;
 }
 
 .button_span{
   color: white;
-  font-size: 13.5cqw;
+  font-size: 15cqw;
   font-family: Rajdhani;
   font-weight: 700;
   word-wrap: break-word;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  text-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
 }
 </style>

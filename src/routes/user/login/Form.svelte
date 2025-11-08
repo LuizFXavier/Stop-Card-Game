@@ -5,12 +5,6 @@
         </label>
         <input id="playerName" type="text"/>
     </div>
-    <div class="form_field">
-        <label for ="email" >
-        E-mail
-        </label>
-        <input id="email" type="email"/>
-    </div>
 
     <div class="form_field">
         <label for ="password" >
@@ -18,19 +12,12 @@
         </label>
         <input id="password" type="password"/>
     </div>
-
-    <div class="form_field">
-        <label for ="password2" >
-        Confirm password
-        </label>
-        <input id="password2" type="password"/>
-    </div>
 </form>
 
 <style>
 .form_field{
   display: flex;
-  height: 25%;
+  height: 22%;
   width: 100%;
   flex-direction: column;
   align-items: center;
