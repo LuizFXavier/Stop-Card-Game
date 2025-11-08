@@ -9,6 +9,7 @@ export default class DummyServer{
     public static start(){
         if(!this.started){
             this.subscribeToRoomEvents();
+            this.subscribeToGameEvents();
             this.started = true; 
         }
     }
@@ -32,12 +33,12 @@ export default class DummyServer{
     }
 
     public static subscribeToGameEvents(){
-        gameEventBus.on("pile:buyStack", ()=>{
+        gameEventBus.on("game:buyStack", ()=>{
             console.log("Player comprou da pilha")
             
             gameEventBus.emit("network:buyStack", {playerId:0, card:{rank:5, suit:1}});
         })
-        gameEventBus.on("discard:buyDiscard", ()=>{
+        gameEventBus.on("game:buyDiscard", ()=>{
             console.log("Player comprou do descarte")
             
             gameEventBus.emit("network:buyDiscard", {playerId:0, card:{rank:9, suit:3}});
