@@ -36,5 +36,8 @@ input{
   box-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
   border-radius: 0.8vw;
   color:white;
+  font-family: Rajdhani;
+  font-size:2cqw;
+  border: none;
 }
 </style>

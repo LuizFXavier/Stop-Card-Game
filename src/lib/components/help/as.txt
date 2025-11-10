@@ -1,0 +1,51 @@
+<!-- 
+      O Fundo (Overlay)
+      Usamos <button> para acessibilidade (resolve o warning)
+    -->
+    <button 
+        type="button" 
+        class="overlay" 
+        onclick={closeHelp}
+        aria-label="Fechar modal" 
+        transition:fade={{ duration: 150 }}
+    ></button>
+
+    <!-- A Caixa de Conteúdo (Modal) -->
+    <div class="modal-box" transition:fade={{ duration: 150, delay: 0.1 }}>
+        <header>
+            <!-- Título dinâmico da página atual -->
+            <h2>{helpPages[currentPage].title}</h2>
+            <!-- Botão de Fechar (X) -->
+            <button class="close-btn" onclick={closeHelp} aria-label="Fechar ajuda">
+                &times;
+            </button>
+        </header>
+
+        <!-- Área de conteúdo com scroll -->
+        <section class="content-scroll">
+            <!-- Conteúdo dinâmico da página atual -->
+            {@html helpPages[currentPage].content}
+        </section>
+
+        <!-- Rodapé de Navegação -->
+        <footer class="modal-nav">
+            <span class="page-indicator">
+                Página {currentPage + 1} de {totalPages}
+            </span>
+            <div class="nav-buttons">
+                <!-- Botão "Back", variante 'danger' (vermelho) -->
+                {#if currentPage > 0}
+                    <NavButton variant="danger" onclick={prevPage}>
+                        Back
+                    </NavButton>
+                {/if}
+
+                <!-- Botão "Next", variante 'next' (azul) -->
+                {#if currentPage < totalPages - 1}
+                    <NavButton variant="next" onclick={nextPage}>
+                        Next
+                    </NavButton>
+                {/if}
+            </div>
+        </footer>
+    </div>

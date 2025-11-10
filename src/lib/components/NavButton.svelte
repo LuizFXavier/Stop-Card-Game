@@ -1,16 +1,19 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
 
+  
+    type Variant = 'default' | 'next' | 'create' | 'confirm' | 'danger';
+
     interface Props{
         children: Snippet;
-        color:string;
+        variant?: Variant;
         onclick:()=>void;
     }
 
-    let {children, color, onclick = ()=>{}}:Props = $props();
+    let {children, variant, onclick = ()=>{}}:Props = $props();
 </script>
 
-<button class="btn" style="background: {color};" onclick={onclick}>
+<button class="btn {variant}" onclick={onclick}>
     <span class="button_span">
         {@render children()}
     </span>
@@ -36,5 +39,21 @@
   font-weight: 700;
   word-wrap: break-word;
   text-shadow: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
+}
+
+.next {
+  background-color: var(--btn-blue);
+}
+
+.danger {
+  background-color: var(--btn-red);
+}
+
+.create {
+  background-color: var(--btn-purple);
+}
+
+.confirm {
+  background-color: var(--btn-green);
 }
 </style>
