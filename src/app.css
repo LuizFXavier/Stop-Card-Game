@@ -51,11 +51,14 @@ main{
   --color-red:#EF4637;
   --color-green:#3A9F75;
   --color-purple:#9E74CE;
+  --color-bg:#38474E;
 
   --btn-red:var(--color-red);
   --btn-blue:var(--color-blue);
   --btn-green:var(--color-green);
   --btn-purple:var(--color-purple);
+
+  --font:Rajdhani;
 }
 
 ::-webkit-scrollbar {
