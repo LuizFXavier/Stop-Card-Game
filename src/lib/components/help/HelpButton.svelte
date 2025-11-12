@@ -3,7 +3,7 @@
 
     function openHelp() {
         // Define o estado global como 'true' (aberto)
-        isHelpModalOpen.set(true);
+        isHelpModalOpen.set(!$isHelpModalOpen);
     }
 </script>
 
@@ -27,7 +27,7 @@
         top: 1.5rem;
         left: 1.5rem;
         z-index: 100; /* Fica acima do conteúdo, mas abaixo do modal */
-        
+        width: 5%;
         /* Estilo da imagem */
         background-color: rgba(42, 58, 63, 0.85); /* Fundo escuro com transparência */
         border: 2px solid rgba(255, 255, 255, 0.15); /* Borda subtil */
