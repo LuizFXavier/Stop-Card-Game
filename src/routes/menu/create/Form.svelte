@@ -67,6 +67,7 @@ input{
   font-family: Rajdhani;
   font-size:2cqw;
   border: none;
+  text-align: center;
 }
 form {
   margin-top: 2%;

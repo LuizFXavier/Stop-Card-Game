@@ -3,12 +3,14 @@
 	import FooterNav from "$lib/components/FooterNav.svelte";
 	import { goto } from "$app/navigation";
 	import PageTitle from "$lib/components/PageTitle.svelte";
+	import { showError } from "$lib/stores/errorStore";
 
   function handleCreate(){
-    
+     showError("It's not possible to create a room.")
   }
 
 </script>
+
 
 <main class = "gray_box">
   <section class = "container">
@@ -21,6 +23,7 @@
   
   </section>
 </main>
+
 
 <style>
 

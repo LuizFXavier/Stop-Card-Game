@@ -1,6 +1,7 @@
 <script>
 	import RoomCard from "./RoomCard.svelte";
 	import Navigation from "./Navigation.svelte";
+	import { isHelpModalOpen } from "$lib/stores/helpStore";
 
   const rooms = [
     { id: 1, name: 'Room ####', nPlayers: 1 },
@@ -11,6 +12,9 @@
   ];
 
 </script>
+
+
+
 <main class="box gray_rectangle">
   <h1 class="title">
     Created Rooms
@@ -25,6 +29,7 @@
   </section>
   <Navigation/>
 </main>
+
 
 <style>
 .title{

@@ -1,12 +1,16 @@
 <script lang="ts">
 	import FormField from "$lib/components/FormField.svelte";
-
+  
+  interface Props{
+    roomId:string;
+  }
+  let {roomId = $bindable("")}:Props = $props();
 </script>
 
 <form>
-  <FormField id="roomId" label="Room Code" type = "text"/>
+  <FormField bind:bind={roomId} id="roomId" label="Room Code" type = "number"/>
 
-  <FormField id="roomPassword" label="Password" type = "text"/>
+  <FormField id="roomPassword" label="Password" type = "password"/>
 </form>
 
 <style>
