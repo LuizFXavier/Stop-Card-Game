@@ -45,6 +45,8 @@
         position:absolute;
         top:0;
         left:0;
-        background-color: rebeccapurple;
+        background-image: url('/game_bg.png');
+        background-size: cover;
     }
+    /* Em app.css ou no seu <style> do Svelte */
 </style>

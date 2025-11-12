@@ -15,8 +15,8 @@ export default class Card extends GameObject{
     public isUp:boolean = true;
     public valid:boolean = true;
 
-    public static width = Card.WIDTH_SPR / 4;
-    public static height = Card.HEIGHT_SPR / 4;
+    public static width = globalThis.innerWidth / 15;
+    public static height = this.width * this.HEIGHT_SPR / this.WIDTH_SPR;
 
     public srcCoord:{x:number, y:number};
 
