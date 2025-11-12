@@ -1,12 +1,12 @@
 <script lang="ts">
-    let { children, sp = false, checked = $bindable(false), ...rest } = $props();
+    let { children, sp = false, checked = $bindable(false), disabled=false, ...rest } = $props();
 </script>
 
-<label class="custom-checkbox">
+<label class="custom-checkbox" class:disabled={disabled}>
     <span class="label-content">
         {@render children()}
     </span>
-    <input type="checkbox" bind:checked {...rest} />
+    <input type="checkbox" {disabled} bind:checked {...rest} />
     <span class="checkmark"></span>
 </label>
 
@@ -34,18 +34,22 @@
         width: 0;
     }
 
+    .custom-checkbox.disabled {
+    opacity: 0.6; 
+    cursor: not-allowed; 
+    }
+
     .checkmark {
         position: relative;
-        height: 2.1rem;  /* Aprox. 32px (bem maior agora) */
+        height: 2.1rem;  
         width: 2.1rem;
         background-color: #1F2A2C;
         border-radius: 30%;
         box-shadow: inset 0 0.125rem 0.25rem rgba(0,0,0,0.5); /* Sombras em rem */
         transition: all 0.2s ease-in-out;
-        flex-shrink: 0; /* Garante que a bolinha não amassa se o texto for longo */
-        /* ADICIONADO: Borda transparente por padrão para reservar espaço */
+        flex-shrink: 0;
         border: 0.125rem solid var(--color-bg);
-        /* Garante que a borda não aumenta o tamanho total de 2rem */
+        
         box-sizing: border-box;
     }
 
