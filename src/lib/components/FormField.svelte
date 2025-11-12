@@ -1,6 +1,11 @@
 <script lang="ts">
-    let {id, label, type}:
-    {id:string, label:string, type:string} = $props();
+  interface Props{
+    id:string;
+    label:string;
+    type:string;
+    bind?:string;
+  }
+    let {id, label, type, bind = $bindable()}:Props = $props();
 
 </script>
 
@@ -8,7 +13,7 @@
         <label for = {id} >
         {label}
         </label>
-        <input id={id} type={type}/>
+        <input bind:value={bind} id={id} type={type}/>
 </section>
 
 <style>
@@ -39,5 +44,7 @@ input{
   font-family: Rajdhani;
   font-size:2cqw;
   border: none;
+  text-align: center;
+  font-weight: 500;
 }
 </style>

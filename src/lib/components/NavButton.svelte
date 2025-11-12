@@ -29,8 +29,8 @@
   align-items: center;
   container-type: inline-size;
   container: btn;
-  width: 40%;
-  height: 80%;
+  width: 90%;
+  height: 10%;
 }
 .button_span{
   color: white;
