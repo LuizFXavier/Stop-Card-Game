@@ -44,7 +44,7 @@
         margin: 0;
         display: flex;
         flex-direction: column;
-        gap: 1.5rem; /* Espaço entre as regras */
+        gap: 1.75rem; /* Espaço entre as regras */
         width: 80%;
     }
 
@@ -61,7 +61,10 @@
         color: white;
         flex-shrink: 0; /* Não encolhe */
         width: 2.5rem; /* Garante alinhamento (ajuste se precisar) */
-        text-align: left;
+        /* text-align: left; */
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
     }
 
     .chip-carta {
@@ -75,7 +78,7 @@
 
     .texto-regra {
         font-family: 'Rajdhani', sans-serif; /* Assumindo a fonte do projeto */
-        font-size: 1.4rem; /* Tamanho do texto normal (ajuste se o 'rem' base for diferente) */
+        font-size: 1.5rem; /* Tamanho do texto normal (ajuste se o 'rem' base for diferente) */
         color: #ddd; /* Cor do texto (cinza-claro) */
         line-height: 1.4;
         margin: 0; /* Remove margem padrão do <p> */

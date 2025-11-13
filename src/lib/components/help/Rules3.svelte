@@ -53,7 +53,7 @@
 
     .item-regra {
         display: flex;
-        align-items: flex-start; /* Alinha tudo verticalmente */
+        align-items: center; /* Alinha tudo verticalmente */
         gap: 1rem; /* Espaço entre o número, o chip e o texto */
     }
 
@@ -74,7 +74,6 @@
         flex-shrink: 0; /* Não encolhe */
         width: 1.5rem; /* Tamanho do "chip" escuro */
         height: 1.5rem;
-        /* margin-left: 5%; */
         background-color: #1a2428; /* Cor escura do chip (exemplo) */
         border-radius: 25%; /* Deixa o chip redondo como na imagem */
         box-shadow: inset 0 0.1rem 0.2rem rgba(0,0,0,0.5); /* Sombra interna */
@@ -82,7 +81,7 @@
 
     .texto-regra {
         font-family: 'Rajdhani', sans-serif; /* Assumindo a fonte do projeto */
-        font-size: 1.4rem; /* Tamanho do texto normal (ajuste se o 'rem' base for diferente) */
+        font-size: 1.5rem; /* Tamanho do texto normal (ajuste se o 'rem' base for diferente) */
         color: #ddd; /* Cor do texto (cinza-claro) */
         line-height: 1.4;
         margin: 0; /* Remove margem padrão do <p> */

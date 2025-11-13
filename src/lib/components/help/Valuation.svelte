@@ -89,18 +89,17 @@
 
     .valor-ponto {
         flex: 1; /* Faz a caixa ocupar todo o espaço restante */
-        
-        /* Estilo da caixa escura (baseado no seu tema) */
+
         
         background-color: #1F2A2C; 
-        border-radius: 1rem; /* Borda bem arredondada como na imagem */
+        border-radius: 1rem; 
         box-shadow: inset 0 0.125rem 0.25rem rgba(0,0,0,0.5); /* Sombra interna */
         
         /* Estilo do texto interno */
         color: white;
         font-family: 'Rajdhani', sans-serif;
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: 2rem;
         text-align: center;
         padding: 0.75rem 1.5rem;
     }
