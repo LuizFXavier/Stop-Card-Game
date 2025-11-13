@@ -22,6 +22,16 @@ export default class Player extends GameObject{
 
         this.resetDrawnCard();
     }
+    setPosition(x:number, y:number){
+        this.x = x;
+        this.y = y;
+    }
+    setHand(cards:{rank:Rank, suit:Suit}[]){
+        for(let i = 0; i < cards.length; ++i){
+            this.hand.push(new Card(cards[i].rank, cards[i].suit));
+            
+        }
+    }
     
     buyCard(card:{rank:Rank, suit:Suit}){
         console.log("Carta comprada:", card)

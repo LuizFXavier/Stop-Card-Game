@@ -8,12 +8,12 @@
 
     $effect(()=>{
         roomEventBus.on("server:joinRoom", data =>{
-            game.setup(data);
+            game.setup("gameScreen", data);
             roomEventBus.emit("client:gameInit");
         })
 
         roomEventBus.on("server:gameInit", data =>{
-            game.initialize("gameScreen", data);
+            game.initialize(data);
         })
         
 

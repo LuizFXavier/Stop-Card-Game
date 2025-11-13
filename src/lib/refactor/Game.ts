@@ -12,6 +12,7 @@ import Button from "./UI/Button";
 
 class Game{
     
+    private canvas!:HTMLCanvasElement;
     private players:Player[] = [] // Estado do jogo
     private mainPile!:Pile;
     private discard!:Discard;
@@ -26,16 +27,18 @@ class Game{
 
     private networkManager!:NetworkManager;
 
-    public setup(joinData:JoinData){
-        this.mainPlayerID = joinData.identifier;
+    public setup(canvasId:string, joinData:JoinData){
+
+        this.canvas = document.getElementById(canvasId) as HTMLCanvasElement;
+        this.canvas.width = window.innerWidth
+        this.canvas.height = window.innerHeight
+
+        this.createPlayers(joinData);
     }
 
-    public async initialize(canvasId:string, initData:InitData){
-        const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
-        canvas.width = window.innerWidth
-        canvas.height = window.innerHeight
+    public async initialize(initData:InitData){
 
-        const ctx = canvas.getContext('2d')!;
+        const ctx = this.canvas.getContext('2d')!;
         
         this.assetManager = AssetManager.instance;
         await this.assetManager.loadAssets().then(()=>{
@@ -138,6 +141,21 @@ class Game{
 
         for(let i = 0; i < this.players.length; ++i){
             this.renderer.drawPlayer(this.players[i]);
+        }
+    }
+
+    private createPlayers(joinData:JoinData){
+        
+        this.mainPlayerID = joinData.identifier;
+        
+        const playerList = joinData.players;
+
+        playerList.sort((a, b)=>{return a.id - b.id})
+
+        const mainID = playerList.map(a => a.id).indexOf(this.mainPlayerID)
+        let c = 0;
+        for(let i = mainID; c < playerList.length; ++c, i = (i+1) % playerList.length){
+            
         }
     }
 }
