@@ -45,17 +45,48 @@ export class GameRenderer {
       sy = Card.faceDownCoord.y;
     }
     
+    if(card.rotation === 0){
+      this.ctx.drawImage(
+        this.cardSheet, // 1. A imagem *inteira* (sprite sheet)
+        sx,             // 2. Source X (de onde recortar)
+        sy,             // 3. Source Y (de onde recortar)
+        Card.WIDTH_SPR,    // 4. Source Width (largura do recorte)
+        Card.HEIGHT_SPR,   // 5. Source Height (altura do recorte)
+        card.x,            // 6. Destination X (onde desenhar)
+        card.y,            // 7. Destination Y (onde desenhar)
+        card.width,     // 8. Destination Width (tamanho final)
+        card.height     // 9. Destination Height (tamanho final)
+      );
+      this.ctx.fillStyle = "#00F";
+    this.ctx.fillRect(card.x, card.y, 4,4)
+      return;
+    }
+    
+
+    const centerX = card.x + card.width / 2;
+    const centerY = card.y + card.height / 2;
+    
+    this.ctx.save();
+
+    this.ctx.translate(centerX, centerY);
+    this.ctx.rotate(card.rotation);
+
     this.ctx.drawImage(
-      this.cardSheet, // 1. A imagem *inteira* (sprite sheet)
-      sx,             // 2. Source X (de onde recortar)
-      sy,             // 3. Source Y (de onde recortar)
-      Card.WIDTH_SPR,    // 4. Source Width (largura do recorte)
-      Card.HEIGHT_SPR,   // 5. Source Height (altura do recorte)
-      card.x,            // 6. Destination X (onde desenhar)
-      card.y,            // 7. Destination Y (onde desenhar)
-      Card.width,     // 8. Destination Width (tamanho final)
-      Card.height     // 9. Destination Height (tamanho final)
+      this.cardSheet,
+      card.srcCoord.x,
+      card.srcCoord.y,
+      Card.WIDTH_SPR, 
+      Card.HEIGHT_SPR,
+      -Card.width / 2, // Posição X relativa ao novo centro
+      -Card.height / 2, // Posição Y relativa ao novo centro
+      Card.width,
+      Card.height
     );
+
+    this.ctx.restore();
+
+    this.ctx.fillStyle = "#00F";
+    this.ctx.fillRect(card.x, card.y, 4,4)
   }
   
   //Método para desenhar um conjunto de cartas
@@ -68,6 +99,9 @@ export class GameRenderer {
   public drawPlayer(player:Player){
     this.drawDeck(player.hand)
     this.drawCard(player.drawnCard)
+    this.ctx.fillStyle = "#F00";
+    this.ctx.fillRect(player.x, player.y, 2,2)
+    
   }
 
   public drawPile(pile:Pile){

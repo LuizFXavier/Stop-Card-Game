@@ -1,9 +1,12 @@
 import { AssetManager } from "./core/AssetManager";
 import { gameEventBus } from "./core/GameEventBus";
+import Card from "./gameObjects/Card";
 import Discard from "./gameObjects/Discard";
+import MainPlayer from "./gameObjects/MainPlayer";
 import Pile from "./gameObjects/Pile";
 import Player from "./gameObjects/Player";
 import { GameRenderer } from "./system/GameRenderer";
+import { LayoutSystem } from "./system/LayoutSystem";
 import Mouse from "./system/Mouse";
 import NetworkManager from "./system/NetworkManager";
 import type { Rank, Suit } from "./types/CardProperties";
@@ -18,20 +21,30 @@ class Game{
     private discard!:Discard;
     private btnDiscard!:Button;
 
+    private screen!:{width:number, height:number};
+
     private mainPlayerID:number = 0;
     private turnId:number = 0;
 
     public renderer!: GameRenderer;
 
+    private layoutSystem!: LayoutSystem;
+
     private assetManager!:AssetManager;
 
     private networkManager!:NetworkManager;
 
-    public setup(canvasId:string, joinData:JoinData){
+    public setup(canvasId:string, screen:{width:number, height:number}, joinData:JoinData){
 
         this.canvas = document.getElementById(canvasId) as HTMLCanvasElement;
-        this.canvas.width = window.innerWidth
-        this.canvas.height = window.innerHeight
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+        this.screen = screen;
+
+        Card.setGlobalDimesions(screen.width);
+
+        this.layoutSystem = new LayoutSystem(window.innerWidth, window.innerHeight,
+             Card.width, Card.height);
 
         this.createPlayers(joinData);
     }
@@ -53,19 +66,22 @@ class Game{
 
     private start(initData:InitData){
         
-        for(let i = 0; i < 1; ++i){
-            this.players.push(new Player(300, 300, i, initData.cards[i]));
-        }
-        this.mainPile = new Pile(window.innerWidth * 3/4, window.innerHeight * 2.8/4);
-        this.discard = new Discard(window.innerWidth * 2.5/4, window.innerHeight * 2.8/4);
+        const halfCardW = Card.width / 2;
+        const halfCardH = Card.height / 2;
+
+        this.mainPile = new Pile(this.layoutSystem.pilePos());
+        this.discard = new Discard(window.innerWidth / 2 - halfCardW, window.innerHeight / 2 - halfCardH);
+
+        this.discard.receiveCard(new Card(0,0));
 
         this.btnDiscard = new Button("player:discard", "#F00", 0, 500, 25, 15);
+
+        this.createHands(initData);
         
         this.subscribeToGameEvents();
         this.subscribeToNetworkEvents();
 
         this.startTurn(initData.turnId)
-
         this.loop();
     }
 
@@ -150,12 +166,44 @@ class Game{
         
         const playerList = joinData.players;
 
-        playerList.sort((a, b)=>{return a.id - b.id})
+        playerList.sort((a, b)=>{return a.id - b.id});
 
-        const mainID = playerList.map(a => a.id).indexOf(this.mainPlayerID)
+        const mainIndex = playerList.map(a => a.id).indexOf(this.mainPlayerID);
+
+        for(let i = 0; i < playerList.length; ++i){
+            if(i == mainIndex){
+                this.players.push(new MainPlayer(playerList[i].id, playerList[i].name))
+            }
+            else{
+                this.players.push(new Player(playerList[i].id, playerList[i].name))
+            }
+        }
+        
+        // Posiciona os jogadores em sentido antihorário ou um de frente para o outro, se for um duelo.
         let c = 0;
-        for(let i = mainID; c < playerList.length; ++c, i = (i+1) % playerList.length){
+        let isTwoPlayers = playerList.length === 2 ? 1 : 0;
+        for(let i = mainIndex; c < playerList.length + isTwoPlayers; i = (i+1) % playerList.length){
+            const pos = this.layoutSystem.playerPos(c);
+
+            this.players[i].setPosition(pos.x, pos.y, c % 2 == 0);
             
+            c = c + 1 + isTwoPlayers;
+        }
+
+        console.log(this.players)
+    }
+
+    private createHands(initData:InitData){
+        
+        const playerCards = initData.playersCards;
+
+        playerCards.sort((a, b)=>{return a.id - b.id});
+
+        const mainIndex = playerCards.map(a => a.id).indexOf(this.mainPlayerID);
+
+        let c = 0;
+        for(let i = mainIndex; c < playerCards.length; ++c, i = (i+1) % playerCards.length){
+            this.players[c].setHand(playerCards[i].cards)
         }
     }
 }

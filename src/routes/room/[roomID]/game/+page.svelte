@@ -3,12 +3,13 @@
 	import { roomEventBus } from "$lib/refactor/core/RoomEventBus";
     import game from "$lib/refactor/Game";
     import Mouse from "$lib/refactor/system/Mouse";
+	import { onMount } from "svelte";
     
     let {data}:{data:LayoutData} = $props()
 
-    $effect(()=>{
+    onMount(()=>{
         roomEventBus.on("server:joinRoom", data =>{
-            game.setup("gameScreen", data);
+            game.setup("gameScreen", {width:screen.width, height:screen.height}, data);
             roomEventBus.emit("client:gameInit");
         })
 

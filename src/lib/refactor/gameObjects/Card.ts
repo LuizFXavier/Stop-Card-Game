@@ -14,9 +14,17 @@ export default class Card extends GameObject{
     public suit:Suit;
     public isUp:boolean = true;
     public valid:boolean = true;
+    public rotation:number = 0;
+    public width:number;
+    public height:number;
 
-    public static width = globalThis.innerWidth / 15;
-    public static height = this.width * this.HEIGHT_SPR / this.WIDTH_SPR;
+    public static width = 0;
+    public static height = 0;
+
+    public static setGlobalDimesions(width:number){
+        Card.width = width * 0.07;
+        Card.height = this.width * this.HEIGHT_SPR / this.WIDTH_SPR;;
+    }
 
     public srcCoord:{x:number, y:number};
 
@@ -24,6 +32,8 @@ export default class Card extends GameObject{
         super(0,0);
         this.rank = rank;
         this.suit = suit;
+        this.width = Card.width;
+        this.height = Card.height;
 
         this.srcCoord = {x:Card.WIDTH_SPR * rank, y:Card.HEIGHT_SPR * suit}
     }
@@ -42,9 +52,13 @@ export default class Card extends GameObject{
         this.x = x;
         this.y = y;
     }
+
+    public setRotation(r:number){
+        this.rotation = r;
+    }
     
     public collision():boolean{
-        return Collision.rectangleCollision({x:this.x, y:this.y, width:Card.width, height:Card.height},
+        return Collision.rectangleCollision(this,
              Mouse) 
              && Mouse.clicked;
     }

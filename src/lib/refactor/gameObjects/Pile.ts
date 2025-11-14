@@ -11,11 +11,11 @@ export default class Pile extends GameObject{
     
     private clickable:boolean = false;
 
-    constructor(x:number, y:number){
-        super(x, y)
+    constructor(pos:{x:number, y:number}){
+        super(pos.x, pos.y)
 
         this.card = new Card(0, 0);
-        this.card.setCoords(x, y);
+        this.card.setCoords(pos.x, pos.y);
     }
 
     setClickable(b:boolean){
