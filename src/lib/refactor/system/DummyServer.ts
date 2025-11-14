@@ -6,6 +6,10 @@ export default class DummyServer{
     
     public static started:boolean = false;
 
+    public static players = [{name:"soos", id:0}, 
+        {name:"jonas", id:1}, 
+        {name:"César dalad", id:2}, {name:"cruz", id:7}]
+
     public static start(){
         if(!this.started){
             this.subscribeToRoomEvents();
@@ -17,18 +21,21 @@ export default class DummyServer{
     public static subscribeToRoomEvents(){
         roomEventBus.on('client:joinRoom', data =>{
             console.log("O player " + data.userID + " entrou na sala " + data.roomID)
-            let players = [{name:"soos", id:0}, {name:"jonas", id:1}]
 
-            let joinData:JoinData = {host:0, rules:{a:false}, players:players, identifier:0}
+            let joinData:JoinData = {host:0, rules:{a:false}, players:this.players, identifier:0}
             roomEventBus.emit("server:joinRoom", joinData)
         })
         roomEventBus.on("client:gameStart", () =>{
             roomEventBus.emit("server:gameStart");
         })
         roomEventBus.on("client:gameInit", ()=>{
-            const cards = this.createPlayers(2, 2)
+            const cards = this.createPlayers(this.players.length, 4)
+            let playersCards = [];
+            for(let i = 0; i < this.players.length; ++i){
+                playersCards.push({id:this.players[i].id, cards:cards[i]})
+            }
             console.log("Init")
-            roomEventBus.emit("server:gameInit", {cards:cards, stackSize:5, turnId:0})
+            roomEventBus.emit("server:gameInit", {playersCards:playersCards, turnId:0})
         })
     }
 
@@ -59,6 +66,7 @@ export default class DummyServer{
             for(let j = 0; j < nC; ++j){
                 //@ts-ignore
                 cards.push({rank:j, suit:i});
+                console.log("lopando")
             }
             players.push(cards);
         }
