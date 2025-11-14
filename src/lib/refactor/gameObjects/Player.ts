@@ -37,7 +37,7 @@ export default class Player extends GameObject{
     }
 
     calculateHandPosition(){
-        const margin = Card.width * 0.3;
+        const margin = Card.width * 0.2;
         const n = this.hand.length;
         const nTop = Math.ceil(n/2);
         const isEven = nTop % 2 == 0;
