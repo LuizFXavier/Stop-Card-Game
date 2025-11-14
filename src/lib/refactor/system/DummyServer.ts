@@ -6,9 +6,9 @@ export default class DummyServer{
     
     public static started:boolean = false;
 
-    public static players = [{name:"soos", id:0}, 
-        {name:"jonas", id:1}, 
-        {name:"César dalad", id:2}, {name:"cruz", id:7}]
+    public static players = [{name:"Baixo", id:0}, 
+        {name:"Direita", id:1}, 
+        {name:"Cima", id:2}, {name:"Esquerda", id:7}]
 
     public static start(){
         if(!this.started){
