@@ -11,12 +11,14 @@ import Mouse from "./system/Mouse";
 import NetworkManager from "./system/NetworkManager";
 import type { Rank, Suit } from "./types/CardProperties";
 import type { InitData, JoinData } from "./types/InitData";
+import type { PlayerState } from "./types/States";
 import Button from "./UI/Button";
 
 class Game{
     
     private canvas!:HTMLCanvasElement;
     private players:Player[] = [] // Estado do jogo
+    private playerMap:Map<number, number> = new Map();
     private mainPile!:Pile;
     private discard!:Discard;
     private btnDiscard!:Button;
@@ -24,6 +26,7 @@ class Game{
     private screen!:{width:number, height:number};
 
     private mainPlayerID:number = 0;
+    private mainIndex:number = 0;
     private turnId:number = 0;
 
     public renderer!: GameRenderer;
@@ -169,6 +172,7 @@ class Game{
         playerList.sort((a, b)=>{return a.id - b.id});
 
         const mainIndex = playerList.map(a => a.id).indexOf(this.mainPlayerID);
+        this.mainIndex = mainIndex;
 
         for(let i = 0; i < playerList.length; ++i){
             if(i == mainIndex){
@@ -177,6 +181,7 @@ class Game{
             else{
                 this.players.push(new Player(playerList[i].id, playerList[i].name))
             }
+            this.playerMap.set(playerList[i].id, i);
         }
         
         // Posiciona os jogadores em sentido antihorário ou um de frente para o outro, se for um duelo.
@@ -205,6 +210,16 @@ class Game{
         for(let i = mainIndex; c < playerCards.length; ++c, i = (i+1) % playerCards.length){
             this.players[c].setHand(playerCards[i].cards)
         }
+    }
+
+    public mpState():PlayerState{
+        return this.players[this.mainIndex].getState();
+    }
+    public isMPState(state:PlayerState){
+        if(!this.players)
+            return false;
+
+        return this.mpState() === state;
     }
 }
 const game = new Game();

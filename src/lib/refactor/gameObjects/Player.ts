@@ -2,12 +2,14 @@ import GameObject from "./GameObject";
 import { gameEventBus } from "../core/GameEventBus";
 import Card from "./Card";
 import { Suit, type Rank } from "../types/CardProperties";
+import { PlayerState } from "../types/States";
 
 export default class Player extends GameObject{
     
-    private id:number;
-    private name:string;
+    protected id:number;
+    protected name:string;
 
+    protected state:PlayerState = PlayerState.IDLE;
     public drawnCard!:Card;
 
     public hand:Card[] = [];
@@ -70,7 +72,7 @@ export default class Player extends GameObject{
         
     }
     
-    buyCard(card:{rank:Rank, suit:Suit}){
+    buyCard(card:{rank:Rank, suit:Suit}, origin?:("pile" | "discard")){
         console.log("Carta comprada:", card)
         this.drawnCard.set(card.rank, card.suit);
         this.drawnCard.setValid(true);
@@ -83,15 +85,19 @@ export default class Player extends GameObject{
 
     resetDrawnCard(){
         this.drawnCard = new Card(0,0);
-        this.drawnCard.isUp = true;
+        this.drawnCard.isUp = false;
         this.drawnCard.setValid(false);
     }
 
+    change_state(state:PlayerState){
+        this.state = state;
+    }
+
+    public getState():PlayerState{
+        return this.state;
+    }
+
     public update(): void{
-        for(let i = 0; i < this.hand.length; ++i){
-            if(this.hand[i].collision()){
-                gameEventBus.emit('player:cut', {playerId:this.id, cardIndex:i});
-            }
-        }
+        
     };
 }
