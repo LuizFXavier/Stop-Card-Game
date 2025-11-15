@@ -9,13 +9,14 @@ export class AssetManager {
   private constructor(){
 
   }
+  private assets: Map<string, HTMLImageElement> = new Map();
 
-  public cardSpriteSheet: HTMLImageElement | null = null;
-  public pileSpriteSheet: HTMLImageElement | null = null;
-
-  // Caminho para a imagem
-  private spriteSheetUrl = '/assets/do_meu_avo_final.png';
-  private pileSpriteUrl = '/assets/stack.png'
+  // Caminhoa para aa imagens
+  private toLoad = [
+    { key: 'cards', url: '/assets/do_meu_avo_final.png' }, 
+    { key: 'stack',  url: '/assets/stack.png' },
+    { key: 'downCard',    url: '/assets/vermelhovirado.png' }
+  ];
 
   /**
    * Carrega todos os assets essenciais do jogo.
@@ -23,16 +24,28 @@ export class AssetManager {
    */
   public async loadAssets(): Promise<void> {
     try {
-      this.cardSpriteSheet = await this.loadImage(this.spriteSheetUrl);
-      this.pileSpriteSheet = await this.loadImage(this.pileSpriteUrl);
-      console.log('Sprite sheet das cartas carregado.');
-      
+      // Carrega tudo em paralelo
+      const promises = this.toLoad.map(async (item) => {
+        const image = await this.loadImage(item.url);
+        this.assets.set(item.key, image);
+      });
+
+      await Promise.all(promises);
+      console.log('Todos os assets foram carregados.');
+
     } catch (error) {
-      console.error("Falha ao carregar assets:", error);
+      console.error("Erro fatal no carregamento:", error);
       throw error;
     }
   }
 
+  public get(key: string): HTMLImageElement {
+    const asset = this.assets.get(key);
+    if (!asset) {
+      throw new Error(`Erro Crítico: Tentativa de acessar asset '${key}' antes de carregá-lo ou chave incorreta.`);
+    }
+    return asset;
+  }
   
   private loadImage(url: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
