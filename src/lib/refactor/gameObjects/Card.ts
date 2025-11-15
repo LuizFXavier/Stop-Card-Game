@@ -22,7 +22,7 @@ export default class Card extends GameObject{
     public static height = 0;
 
     public static setGlobalDimesions(width:number){
-        Card.width = width * 0.07;
+        Card.width = width * 0.065;
         Card.height = this.width * this.HEIGHT_SPR / this.WIDTH_SPR;;
     }
 
