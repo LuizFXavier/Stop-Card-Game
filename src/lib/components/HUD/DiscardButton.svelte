@@ -23,6 +23,7 @@
   bottom: 5%;
   left: 7%;
   position: absolute;
+  pointer-events: auto;
 }
 
 .invisible{

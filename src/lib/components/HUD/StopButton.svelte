@@ -25,6 +25,7 @@
   bottom: 10%;
   right: 17.5%;
   position: absolute;
+  pointer-events: auto;
 }
 .button_span{
   color: white;
