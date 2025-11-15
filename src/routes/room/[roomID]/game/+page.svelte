@@ -6,10 +6,22 @@
 	import { onMount } from "svelte";
 	import PlayerInfo from "$lib/components/HUD/PlayerInfo.svelte";
 	import { positionInfo, type Variant } from "./hud.helper";
+	import StopButton from "$lib/components/HUD/StopButton.svelte";
+	import DiscardButton from "$lib/components/HUD/DiscardButton.svelte";
+	import { PlayerState } from "$lib/refactor/types/States";
     
     let {data}:{data:LayoutData} = $props()
 
     let playersInfo:{name:string, variant:Variant}[] = $state([])
+    let showDiscard:boolean = $derived(game.isMPState(PlayerState.EVAL_PILE));
+    let showStop:boolean = $state(game.isMPState(PlayerState.TURN_START));
+
+    function stopRequest(){
+
+    }
+    function discard(){
+
+    }
 
     onMount(()=>{
         roomEventBus.on("server:joinRoom", data =>{
@@ -49,6 +61,10 @@
             <PlayerInfo {name} {variant}/>
         {/each}
     </section>
+    <section class="btn_container">
+        <StopButton onclick={stopRequest}/>
+        <DiscardButton onclick={discard}/>
+    </section>
 </section>
 
 <style>
@@ -72,13 +88,23 @@
 
     .hud_container {
         
-        position: relative;
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         z-index: 2;
         pointer-events: none;
+    }
+
+    .btn_container {
+        
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 3;
     }
     
 </style>
