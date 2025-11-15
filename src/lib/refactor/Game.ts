@@ -11,8 +11,8 @@ import Mouse from "./system/Mouse";
 import NetworkManager from "./system/NetworkManager";
 import type { Rank, Suit } from "./types/CardProperties";
 import type { InitData, JoinData } from "./types/InitData";
-import type { PlayerState } from "./types/States";
-import Button from "./UI/Button";
+import { PlayerState } from "./types/States";
+import { wait } from "./utils/time";
 
 class Game{
     
@@ -21,7 +21,6 @@ class Game{
     private playerMap:Map<number, number> = new Map();
     private mainPile!:Pile;
     private discard!:Discard;
-    private btnDiscard!:Button;
 
     private screen!:{width:number, height:number};
 
@@ -44,7 +43,7 @@ class Game{
         this.canvas.height = window.innerHeight;
         this.screen = screen;
 
-        Card.setGlobalDimesions(screen.width);
+        Card.setGlobalDimesions(window.innerWidth);
 
         this.layoutSystem = new LayoutSystem(window.innerWidth, window.innerHeight,
              Card.width, Card.height);
@@ -67,7 +66,7 @@ class Game{
         
     }
 
-    private start(initData:InitData){
+    private async start(initData:InitData){
         
         const halfCardW = Card.width / 2;
         const halfCardH = Card.height / 2;
@@ -75,24 +74,23 @@ class Game{
         this.mainPile = new Pile(this.layoutSystem.pilePos());
         this.discard = new Discard(window.innerWidth / 2 - halfCardW, window.innerHeight / 2 - halfCardH);
 
-        this.discard.receiveCard(new Card(0,0));
-
-        this.btnDiscard = new Button("player:discard", "#F00", 0, 500, 25, 15);
-
         this.createHands(initData);
         
         this.subscribeToGameEvents();
         this.subscribeToNetworkEvents();
-
-        this.startTurn(initData.turnId)
+        
         this.loop();
+        await this.dealState();
+        await this.spyState();
+
+        this.passTurn(initData.turnId)
     }
 
     private subscribeToGameEvents(){
         gameEventBus.on("pile:buyStack", ()=>{
             this.discard.setClickable(false);
             console.log("Compra da pilha")
-            this.btnDiscard.show();
+            
             gameEventBus.emit("game:buyStack");
         })
 
@@ -102,11 +100,13 @@ class Game{
         })
 
         gameEventBus.on("player:discard", ()=>{
-            this.btnDiscard.hide();
-            const card = this.players[this.mainPlayerID].discardCard();
+            
+            const mainPlayer = this.players[this.mainPlayerID];
+            const card = mainPlayer.discardCard();
             this.discard.receiveCard(card);
-            console.log("Carta descartada:", card)
+
             gameEventBus.emit("game:discard");
+
         })
     }
 
@@ -115,26 +115,54 @@ class Game{
             const rank:Rank = card.rank as Rank;
             const suit:Suit = card.suit as Suit;
 
-            this.players[playerId].buyCard({rank, suit});
+            this.players[playerId].buyCard({rank, suit}, "pile");
+            
         })
 
         gameEventBus.on("network:buyDiscard", ({playerId, card})=>{
             const rank:Rank = card.rank as Rank;
             const suit:Suit = card.suit as Suit;
             
-            this.players[playerId].buyCard({rank, suit});
+            this.players[playerId].buyCard({rank, suit}, "discard");
+            
         })
 
-        gameEventBus.on("network:passTurn", ({turnId})=>this.startTurn(turnId))
+        gameEventBus.on("network:passTurn", ({turn})=>this.passTurn(turn))
     }
 
-    private startTurn(turnId:number){
-        this.turnId = turnId;
+    private passTurn(turn:number){
+        this.turnId = turn % this.players.length;
 
-        if(turnId == this.mainPlayerID){
+        if(this.turnId == this.mainIndex){
+            const mainPlayer = this.players[this.mainIndex];
+            mainPlayer.startTurn();
             this.mainPile.setClickable(true);
             this.discard.setClickable(true);
         }
+        gameEventBus.emit("game:turnPass", this.turnId)
+    }
+
+    private async dealState(){
+
+        for (const p of this.players) {
+        
+        for (const c of p.hand) {
+            c.setValid(true);
+            
+            await wait(200);
+        }
+    }
+    }
+
+    private async spyState(){
+        
+        this.players.forEach(p=>{
+            p.startSpy();
+        })
+        await wait(2000);
+        this.players.forEach(p=>{
+            p.endSpy();
+        })
     }
 
     private loop(){
@@ -143,7 +171,6 @@ class Game{
         
         this.mainPile.update();
         this.discard.update();
-        this.btnDiscard.update();
         for(let i = 0; i < this.players.length; ++i){
             this.players[i].update();
         }
@@ -154,7 +181,6 @@ class Game{
     }
     private render(){
         this.renderer.clear();
-        this.renderer.drawButton(this.btnDiscard);
         this.renderer.drawPile(this.mainPile);
         this.renderer.drawDiscard(this.discard);
 
@@ -190,7 +216,7 @@ class Game{
         for(let i = mainIndex; c < playerList.length + isTwoPlayers; i = (i+1) % playerList.length){
             const pos = this.layoutSystem.playerPos(c);
 
-            this.players[i].setPosition(pos.x, pos.y, c % 2 == 0);
+            this.players[i].setPosition(pos.x, pos.y, c);
             
             c = c + 1 + isTwoPlayers;
         }
@@ -208,7 +234,7 @@ class Game{
 
         let c = 0;
         for(let i = mainIndex; c < playerCards.length; ++c, i = (i+1) % playerCards.length){
-            this.players[c].setHand(playerCards[i].cards)
+            this.players[i].setHand(playerCards[i].cards)
         }
     }
 
@@ -216,9 +242,9 @@ class Game{
         return this.players[this.mainIndex].getState();
     }
     public isMPState(state:PlayerState){
-        if(!this.players)
+        if(this.players.length === 0)
             return false;
-
+        console.log(this.players)
         return this.mpState() === state;
     }
 }

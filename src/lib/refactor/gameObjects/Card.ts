@@ -5,14 +5,12 @@ import GameObject from "./GameObject";
 
 export default class Card extends GameObject{
 
-    public static WIDTH_SPR:number = 616;
-    public static HEIGHT_SPR:number = 823;
-
-    public static faceDownCoord = {x:this.WIDTH_SPR * 13, y:0};
+    public static WIDTH_SPR:number = 142;
+    public static HEIGHT_SPR:number = 190;
 
     public rank:Rank;
     public suit:Suit;
-    public isUp:boolean = true;
+    public isUp:boolean = false;
     public valid:boolean = true;
     public rotation:number = 0;
     public width:number;
@@ -23,7 +21,7 @@ export default class Card extends GameObject{
 
     public static setGlobalDimesions(width:number){
         Card.width = width * 0.065;
-        Card.height = this.width * this.HEIGHT_SPR / this.WIDTH_SPR;;
+        Card.height = this.width * this.HEIGHT_SPR / this.WIDTH_SPR;
     }
 
     public srcCoord:{x:number, y:number};
@@ -55,6 +53,10 @@ export default class Card extends GameObject{
 
     public setRotation(r:number){
         this.rotation = r;
+    }
+
+    public flip(){
+        this.isUp = !this.isUp;
     }
     
     public collision():boolean{

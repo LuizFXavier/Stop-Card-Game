@@ -22,6 +22,10 @@ export default class Pile extends GameObject{
         this.clickable = b;
     }
 
+    getClickable():boolean{
+        return this.clickable;
+    }
+
     update(){
         if(this.collision()){
             this.clickable = false;
