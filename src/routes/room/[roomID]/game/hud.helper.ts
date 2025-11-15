@@ -12,13 +12,13 @@ export function positionInfo(joinData:JoinData){
 
     const mainIndex = playerList.map(a => a.id).indexOf(mainPlayerID);
 
-    let mappedPlayers:{name:string, variant:Variant}[] = []
+    let mappedPlayers:{name:string, variant:Variant, shiny:boolean}[] = []
 
     let c = 0;
     let isTwoPlayers = playerList.length === 2 ? 1 : 0;
     for(let i = mainIndex; c < playerList.length + isTwoPlayers; i = (i+1) % playerList.length){
         
-        mappedPlayers.push({name:playerList[i].name, variant:variants[c]})
+        mappedPlayers.push({name:playerList[i].name, variant:variants[c], shiny:false})
         
         c = c + 1 + isTwoPlayers;
     }

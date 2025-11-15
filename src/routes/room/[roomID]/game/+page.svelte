@@ -9,18 +9,19 @@
 	import StopButton from "$lib/components/HUD/StopButton.svelte";
 	import DiscardButton from "$lib/components/HUD/DiscardButton.svelte";
 	import { PlayerState } from "$lib/refactor/types/States";
+	import { gameEventBus } from "$lib/refactor/core/GameEventBus";
     
     let {data}:{data:LayoutData} = $props()
 
-    let playersInfo:{name:string, variant:Variant}[] = $state([])
-    let showDiscard:boolean = $derived(game.isMPState(PlayerState.EVAL_PILE));
-    let showStop:boolean = $state(game.isMPState(PlayerState.TURN_START));
+    let playersInfo:{name:string, variant:Variant, shiny:boolean}[] = $state([])
+    let showDiscard:boolean = $state(false);
+    let showStop:boolean = $state(false);
 
     function stopRequest(){
 
     }
     function discard(){
-
+        gameEventBus.emit("player:discard");
     }
 
     onMount(()=>{
@@ -33,6 +34,15 @@
 
         roomEventBus.on("server:gameInit", data =>{
             game.initialize(data);
+        })
+        gameEventBus.on("mainPlayer:stateChange",() =>{
+            showDiscard = game.isMPState(PlayerState.EVAL_PILE);
+            showStop = game.isMPState(PlayerState.TURN_START);
+        })
+        gameEventBus.on("game:turnPass", turnId=>{
+            for(let i = 0; i < playersInfo.length; ++i){
+                playersInfo[i].shiny = i === turnId;
+            }
         })
 
         let roomID = data.post.roomID as string;
@@ -57,13 +67,11 @@
     </canvas>
     <section class="hud_container">
 
-        {#each playersInfo as {name, variant}}
-            <PlayerInfo {name} {variant}/>
+        {#each playersInfo as {name, variant, shiny}}
+            <PlayerInfo {name} {variant} {shiny}/>
         {/each}
-    </section>
-    <section class="btn_container">
-        <StopButton onclick={stopRequest}/>
-        <DiscardButton onclick={discard}/>
+        <StopButton onclick={stopRequest} visible={showStop}/>
+        <DiscardButton onclick={discard} visible={showDiscard}/>
     </section>
 </section>
 
@@ -95,16 +103,6 @@
         height: 100%;
         z-index: 2;
         pointer-events: none;
-    }
-
-    .btn_container {
-        
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 3;
     }
     
 </style>
