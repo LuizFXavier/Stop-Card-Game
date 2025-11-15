@@ -8,7 +8,7 @@ export default class DummyServer{
 
     public static players = [{name:"Baixo", id:0}, 
         {name:"Direita", id:1}, 
-        {name:"Cima", id:2}, {name:"Esquerda", id:7}]
+        {name:"Cima", id:2}, {name:"Esquerda", id:3}]
 
     public static start(){
         if(!this.started){
@@ -29,7 +29,7 @@ export default class DummyServer{
             roomEventBus.emit("server:gameStart");
         })
         roomEventBus.on("client:gameInit", ()=>{
-            const cards = this.createPlayers(this.players.length, 4)
+            const cards = this.createPlayers(this.players.length, 6)
             let playersCards = [];
             for(let i = 0; i < this.players.length; ++i){
                 playersCards.push({id:this.players[i].id, cards:cards[i]})
