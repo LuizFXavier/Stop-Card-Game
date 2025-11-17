@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+button{
+  border:none;
+  background-color: transparent;
+  margin: 0;
+  font-family: inherit;
+  appearance: none;
+  cursor:pointer ;
+  transition: all 0.2s ease-in-out;
+}
+
+.faded_background {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  background: linear-gradient(rgba(100, 100, 100, 0.6), rgba(100, 100, 100, 0.6)), url('/balatro_bg.gif');
+  background-size: cover;
+  background-position: center center;
+  
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.gray_box {
+  width: 50%;
+  height: 80%;
+  top: 5%;
+  position: absolute;
+  background: #38474E;
+  box-shadow: 0px 1vw 1vw rgba(0, 0, 0, 0.50);
+  border-radius: 1vw;
+  border: 0.5vw #B5C1D2 solid;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+main{
+  width: 100%;
+  height: 100%;
+}
+
+:root{
+  --color-blue:#018BF6;
+  --color-red:#EF4637;
+  --color-green:#3A9F75;
+  --color-purple:#9E74CE;
+  --color-bg:#38474E;
+
+  --btn-red:var(--color-red);
+  --btn-blue:var(--color-blue);
+  --btn-green:var(--color-green);
+  --btn-purple:var(--color-purple);
+
+  --font:Rajdhani;
+}
+
+::-webkit-scrollbar {
+    width: 1.4rem;
+    border-radius: 1vw;
+    padding: auto;
+}
+
+::-webkit-scrollbar-track {
+    background: #EBEBEB;
+    border-radius: 1vw;
+    border-right: 0.2rem solid transparent;
+    background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #292D32; 
+    border: 0.2rem solid transparent;
+    border-right: 0.4rem solid transparent;
+    background-clip: content-box;
+    border-radius: 1vw;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
