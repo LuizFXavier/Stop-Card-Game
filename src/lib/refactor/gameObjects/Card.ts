@@ -33,14 +33,14 @@ export default class Card extends GameObject{
         this.width = Card.width;
         this.height = Card.height;
 
-        this.srcCoord = {x:Card.WIDTH_SPR * rank, y:Card.HEIGHT_SPR * suit}
+        this.srcCoord = {x:Card.WIDTH_SPR * (rank -1), y:Card.HEIGHT_SPR * suit}
     }
 
     public set(rank:Rank, suit:Suit){
         this.rank = rank;
         this.suit = suit;
 
-        this.srcCoord = {x:Card.WIDTH_SPR * rank, y:Card.HEIGHT_SPR * suit}
+        this.srcCoord = {x:Card.WIDTH_SPR * (rank -1), y:Card.HEIGHT_SPR * suit}
     }
     public setValid(b:boolean){
         this.valid = b;

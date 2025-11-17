@@ -16,14 +16,19 @@
     </span>
 </button>
 
-<button class = "btn anonymous_button" onclick={()=>{goto("/menu/list")}}>
-    <span class="button_span">
-    Anonymously
-    </span>
-</button>
+<form method="POST" action="?/joinGuest">
+  <button type="submit" class = "btn anonymous_button">
+      <span class="button_span">
+      Anonymously
+      </span>
+  </button>
+</form>
 
 
 <style>
+form{
+  display: contents;
+}
 .button_span{
   color: white;
   font-size: 15cqw;

@@ -9,7 +9,8 @@ export enum PlayerState{
     HAB_PREPARING,
     HAB_EXECUTE,
     TURN_END,
-    GAME_END
+    GAME_END,
+    WAIT
 }
 
 export enum GameState{

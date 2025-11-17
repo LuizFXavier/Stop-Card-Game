@@ -6,6 +6,8 @@ export default class DummyServer{
     
     public static started:boolean = false;
 
+    public static turn:number = 0;
+
     public static players = [{name:"Baixo", id:0}, 
         {name:"Direita", id:1}, 
         {name:"Cima", id:2}, {name:"Esquerda", id:3}]
@@ -54,6 +56,9 @@ export default class DummyServer{
             console.log("Player descartou")
 
             gameEventBus.emit("network:discard", {playerId:0})
+        })
+        gameEventBus.on("game:endTurn", ()=>{
+            gameEventBus.emit("network:passTurn",{turn:++this.turn})
         })
     }
     

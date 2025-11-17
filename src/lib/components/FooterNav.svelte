@@ -5,11 +5,13 @@
     interface Props{
         labelR:string;
         variant?: Variant;
+        form?:string;
+        type?:"button" | "submit";
         onclickL:()=>void;
-        onclickR:()=>void;
+        onclickR:(event:any)=>void;
     }
 
-    let {labelR, onclickL, onclickR, variant="default"}:Props = $props();
+    let {labelR, onclickL, onclickR, variant="default", form="", type="button"}:Props = $props();
 </script>
 
 
@@ -20,7 +22,7 @@
       </span>
   </button>
 
-  <button class="btn btnR {variant}" onclick={onclickR}>
+  <button class="btn btnR {variant}" onclick={onclickR} form={form} type={type}>
       <span class="button_span">
           {labelR}
       </span>

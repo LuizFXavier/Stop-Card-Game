@@ -1,6 +1,27 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
+	import { showError } from "$lib/stores/errorStore";
+	import type { PageData, ActionData } from "./$types";
   import UserChoice from "./UserChoice.svelte";
-  let estado: "inicio" | "escolha_usuario" = $state('inicio')
+
+  let {data, form}:{data:PageData, form:ActionData} = $props();
+  let estado: "inicio" | "escolha_usuario" = $state('inicio');
+  
+  function onclick(){
+    console.log(data);
+    if(data.hasLogin){
+      goto('/menu/list')
+    }
+    else{
+      estado = 'escolha_usuario'
+    }
+  }
+
+  $effect(()=>{
+    if (form?.sucesso === false && form.mensagem) {
+            showError(form.mensagem);
+        }
+  })
 </script>
 <main class="main_background">
   <header class = "logo">
@@ -9,16 +30,16 @@
       </span>
     
   </header>
-
+  
   {#if estado == 'inicio'}
-    <button class = "main_button" onclick={()=> estado = 'escolha_usuario'}>
-      <span class="button_span">
+  <button class = "main_button" onclick={onclick}>
+    <span class="button_span">
         Play
       </span>
     </button>
     {:else}
-      <UserChoice></UserChoice>
-  {/if}
+    <UserChoice></UserChoice>
+    {/if}
 </main>
 
 

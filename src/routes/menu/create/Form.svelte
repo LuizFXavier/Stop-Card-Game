@@ -1,33 +1,37 @@
 <script>
 	import FormField from "$lib/components/FormField.svelte";
   import Checkbox from '$lib/components/Checkbox.svelte';
+	import { enhance } from "$app/forms";
+
+  let {callBack, bind = $bindable()} = $props();
+
     let regras = $state([
         { id: '6', label: '6', checked: false },
         { id: '8', label: '8', checked: false },
-        { id: '10_1', label: '10¹', checked: false },
+        { id: '10', label: '10¹', checked: false },
         { id: 'J', label: 'J', checked: false },
-        { id: 'J_2', label: '', checked: false },
+        { id: 'coringa', label: '', checked: false },
         { id: '7', label: '7', checked: false },
         { id: '9', label: '9', checked: false },
-        { id: '10_2', label: '10²', checked: false },
+        { id: 'tirar10', label: '10²', checked: false },
         { id: 'Q', label: 'Q', checked: false },
-        { id: 'A', label: 'A', checked: false }
+        { id: 'as', label: 'A', checked: false }
     ]);
 </script>
-<form>
+<form method="POST" id="createRoom" action="?/createRoom" use:enhance={callBack}>
 
-    <FormField id="roomPassword" label="Room Password" type = "password"/>
+    <FormField id="roomPassword" label="Room Password" type = "password" name=""/>
 
     <div class="number_field">
         <label for ="cards" >
         N° of Cards
         </label>
-        <input id="cards" type="number" min="0" max="6"/>
+        <input bind:value={bind} name="numCards" id="cards" type="number"/>
     </div>    
 
     <div class="rules-grid">
       {#each regras as regra (regra.id)}
-        <Checkbox bind:checked={regra.checked}>
+        <Checkbox bind:checked={regra.checked} name={regra.id}>
           {#if regra.label.length > 0}
             {regra.label}
           {:else}
@@ -36,6 +40,7 @@
         </Checkbox>
       {/each}
     </div>
+    
 </form>
 
 <style>

@@ -1,8 +1,16 @@
 <script>
+	import { goto } from "$app/navigation";
+	import { showError } from "$lib/stores/errorStore";
+
 
   let {id, nPlayers} = $props()
   function handleJoin() {
-    
+    if(nPlayers >= 4){
+      showError("This room is full!");
+    }
+    else{
+      goto(`/room/${id}/lobby`);
+    }
   }
 </script>
 

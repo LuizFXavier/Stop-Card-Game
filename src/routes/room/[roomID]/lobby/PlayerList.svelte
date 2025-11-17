@@ -7,7 +7,7 @@
 
     {#each playerList as p}
         <div class="name">
-            {p}
+            {p.name}
         </div>
     {/each}
 </section>

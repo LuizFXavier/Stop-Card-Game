@@ -31,6 +31,8 @@
   container: btn;
   width: 90%;
   height: 10%;
+  margin-top: auto;
+  margin-bottom: 2%;
 }
 .button_span{
   color: white;

@@ -1,8 +1,8 @@
-import type { JoinData } from "$lib/refactor/types/InitData";
+import type { JoinConfigDTO } from "$lib/refactor/types/socket/room.dto";
 
 export type Variant = "bottom" | "right" | "top" | "left";
 
-export function positionInfo(joinData:JoinData){
+export function positionInfo(joinData:JoinConfigDTO){
     const mainPlayerID = joinData.identifier;
     const variants:Variant[] = ["bottom", "right", "top", "left"]; 
         
@@ -11,7 +11,8 @@ export function positionInfo(joinData:JoinData){
     playerList.sort((a, b)=>{return a.id - b.id});
 
     const mainIndex = playerList.map(a => a.id).indexOf(mainPlayerID);
-
+    console.log("mainIndex", mainIndex)
+    console.log("ideny", mainPlayerID)
     let mappedPlayers:{name:string, variant:Variant, shiny:boolean}[] = []
 
     let c = 0;
@@ -22,6 +23,9 @@ export function positionInfo(joinData:JoinData){
         
         c = c + 1 + isTwoPlayers;
     }
+    console.log("Listado:", playerList)
+    console.log("Mapado:", mappedPlayers)
+
 
     return mappedPlayers;
 }

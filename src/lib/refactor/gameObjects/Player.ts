@@ -10,7 +10,7 @@ export default class Player extends GameObject{
     protected id:number;
     protected name:string;
 
-    protected state:PlayerState = PlayerState.IDLE;
+    protected state:PlayerState = PlayerState.WAIT;
     public drawnCard!:Card;
 
     public hand:Card[] = [];
@@ -24,6 +24,10 @@ export default class Player extends GameObject{
         this.name = name;
 
         this.resetDrawnCard();
+    }
+
+    getName(){
+        return this.name;
     }
     setPosition(x:number, y:number, direction?:Direction){
         this.x = x;
@@ -167,6 +171,51 @@ export default class Player extends GameObject{
         const card = this.drawnCard;
         this.resetDrawnCard();
         return card;
+    }
+
+    exchangeCard(cardIndex:number){
+        const card = new Card(this.hand[cardIndex].rank, this.hand[cardIndex].suit);
+
+        this.hand[cardIndex].set(this.drawnCard.rank, this.drawnCard.suit);
+        this.resetDrawnCard();
+
+        if(this.hasHability()){
+            this.state = PlayerState.HAB_CHOICE;
+        }
+        else{
+            this.state = PlayerState.IDLE;
+        }
+        
+        return card;
+    }
+    cut(cardIndex:number){
+        const card = new Card(this.hand[cardIndex].rank, this.hand[cardIndex].suit);
+
+        this.hand[cardIndex].setValid(false);
+        
+        return card;
+    }
+
+    getCard(cardIndex:number){
+        return this.hand[cardIndex];
+    }
+    hideCard(cardIndex:number){
+        this.hand[cardIndex].setValid(false)
+    }
+    showCard(cardIndex:number){
+        this.hand[cardIndex].setValid(true)
+    }
+
+    receivePenalty(card:{rank:Rank, suit:Suit}){
+        for(let i = 0; i < this.hand.length; ++i){
+            if(!this.hand[i].valid){
+                this.hand[i].set(card.rank, card.suit);
+                this.hand[i].setValid(true);
+                return;
+            }
+        }
+        this.hand.push(new Card(card.rank, card.suit))
+        this.calculateHandPosition();
     }
 
     hasHability():boolean{

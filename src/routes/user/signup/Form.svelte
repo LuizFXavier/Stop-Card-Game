@@ -1,15 +1,18 @@
 <script lang="ts">
   import FormField from "$lib/components/FormField.svelte";
+	import type { Fields } from "./fields";
+  import { enhance } from "$app/forms";
+  let {fields = $bindable(), callback}:{fields:Fields, callback:()=>void} = $props(); 
 </script>
 
-<form>
-  <FormField id="playerName" label="Player Name" type = "text"/>
+<form method="POST" id="signup" action="?/signup" use:enhance={callback}>
+  <FormField id="playerName" name="name" label="Player Name" type = "text" bind:bind={fields.playerName}/>
   
-  <FormField id="email" label="E-mail" type = "email"/>
+  <FormField id="email" name="email" label="Email" type = "email" bind:bind={fields.email}/>
 
-  <FormField id="password" label="Password" type = "password"/>
+  <FormField id="password" name="password" label="Password" type = "password" bind:bind={fields.password}/>
 
-  <FormField id="confirmP" label="Confirm Password" type = "password"/>
+  <FormField id="confirmP" name="confirmP" label="Confirm Password" type = "password" bind:bind={fields.confirmP}/>
   
 </form>
 

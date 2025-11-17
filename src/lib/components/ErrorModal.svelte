@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { isErrorOpen, errorMessage } from "$lib/stores/errorStore";
-	import type { Snippet } from "svelte";
 	import PageTitle from "./PageTitle.svelte";
 	import NavButton from "./NavButton.svelte";
 
@@ -16,6 +15,8 @@
         }
     }
 </script>
+
+<svelte:window on:keydown={handleKeydown} />
 
 {#if $isErrorOpen}
 
@@ -91,7 +92,7 @@
   overflow-y: auto;
   flex-direction: column;
   gap: 1.5rem;
-  margin-bottom: 1%;
+  margin-top: auto;
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
   padding: 1.5rem;
 }

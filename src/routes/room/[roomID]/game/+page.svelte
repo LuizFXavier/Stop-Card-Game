@@ -10,46 +10,100 @@
 	import DiscardButton from "$lib/components/HUD/DiscardButton.svelte";
 	import { PlayerState } from "$lib/refactor/types/States";
 	import { gameEventBus } from "$lib/refactor/core/GameEventBus";
+	import RoomManager from "$lib/refactor/system/RoomManager";
+	import type { GameInitDTO, JoinConfigDTO } from "$lib/refactor/types/socket/room.dto";
     
     let {data}:{data:LayoutData} = $props()
+    let roomID = data.post.roomID as string;
+    let identifier:number = -1;
 
     let playersInfo:{name:string, variant:Variant, shiny:boolean}[] = $state([])
     let showDiscard:boolean = $state(false);
     let showStop:boolean = $state(false);
+    
+    let roomManager:RoomManager = RoomManager.getInstance(roomID);
 
     function stopRequest(){
-
+        gameEventBus.emit("player:stopRequest");
     }
     function discard(){
         gameEventBus.emit("player:discard");
     }
 
-    onMount(()=>{
-        roomEventBus.on("server:joinRoom", data =>{
-            playersInfo = positionInfo(data);
-            console.log(playersInfo);
-            game.setup("gameScreen", {width:screen.width, height:screen.height}, data);
+    function join( joinData: JoinConfigDTO){
+        console.log(joinData);
+        identifier = joinData.identifier;
+
+        playersInfo = positionInfo(joinData);
+        console.log(playersInfo);
+
+        game.setup("gameScreen", joinData);
+        if(identifier === joinData.host){
+
             roomEventBus.emit("client:gameInit");
+        }
+        const cachedGameData = roomManager.getGameData();
+        if (cachedGameData) {
+            console.log("Perdi", cachedGameData)
+            init(cachedGameData);
+        }
+    }
+
+    async function init(data: GameInitDTO){
+        await game.load(data, roomManager);
+    }
+
+    function subscribeToRoomEvents(){
+        roomEventBus.on("server:joinRoom", join)
+
+        roomEventBus.on("server:gameInit", init)
+        
+    }
+
+    function subscribeToGameEvents(){
+
+        gameEventBus.on("network:dealFinish", ()=>{
+            game.startSpy();
         })
 
-        roomEventBus.on("server:gameInit", data =>{
-            game.initialize(data);
+        gameEventBus.on("network:spyFinish", ()=>{
+            game.start();
         })
+
+        gameEventBus.on("network:gameEnd", dto=>{
+            const name = game.getPlayerName(dto.idWinner);
+            console.log("Pontos:", dto.points)
+            alert(name + " é o ganhador!")
+        })
+
         gameEventBus.on("mainPlayer:stateChange",() =>{
             showDiscard = game.isMPState(PlayerState.EVAL_PILE);
             showStop = game.isMPState(PlayerState.TURN_START);
         })
-        gameEventBus.on("game:turnPass", turnId=>{
+        gameEventBus.on("game:passTurn", turnId=>{
             for(let i = 0; i < playersInfo.length; ++i){
                 playersInfo[i].shiny = i === turnId;
             }
         })
+    }
 
-        let roomID = data.post.roomID as string;
-        let userID = "29";
+    onMount(()=>{
+        
+        subscribeToRoomEvents();
+        subscribeToGameEvents();
+
+        let userID = data.userID!;
         
         roomEventBus.emit('client:joinRoom', {roomID, userID});
         
+        return () => {
+            console.log("LIMPANDO LISTENERS ZUMBIS");
+            // Remove exatamente os mesmos listeners que foram anexados
+            roomEventBus.off("server:joinRoom");
+            roomEventBus.off("server:gameInit");
+            gameEventBus.off("mainPlayer:stateChange");
+            gameEventBus.off("game:passTurn");
+        };
     });
 
 </script>

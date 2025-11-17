@@ -11,6 +11,9 @@ export const errorMessage = writable('An unknow error happened.');
  * @param message A mensagem a ser exibida no modal.
  */
 export function showError(message: string) {
+
+    if(!message)
+        return;
     errorMessage.set(message); // Define a nova mensagem
     isErrorOpen.set(true);      // Abre o modal
 }

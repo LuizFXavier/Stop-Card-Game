@@ -8,11 +8,37 @@ export default class MainPlayer extends Player{
 
     
     public update(): void {
+
+        let f;
+
+        switch(this.state){
+            case PlayerState.EVAL_DISCARD:
+            case PlayerState.EVAL_PILE:
+                f = this.emitExchange;
+                break;
+            
+            case PlayerState.IDLE:
+            case PlayerState.TURN_START:
+                f = this.emitCut;
+                break;
+
+            default:
+                f = ()=>{};
+            break;
+        }
         for(let i = 0; i < this.hand.length; ++i){
             if(this.hand[i].collision()){
-                gameEventBus.emit('player:cut', {playerId:this.id, cardIndex:i});
+                f(i);
             }
         }
+    }
+    private emitCut(cardIndex:number){
+        gameEventBus.emit('player:cut', cardIndex);
+    }
+    private emitExchange(cardIndex:number){
+        console.log("Troca:", cardIndex)
+        gameEventBus.emit('player:exchangeCard', cardIndex);
+
     }
 
     buyCard(card:{rank:Rank, suit:Suit}, origin:("pile" | "discard")){

@@ -2,7 +2,7 @@
     import '../app.css'
     import DummyServer from '$lib/refactor/system/DummyServer';
 	import ErrorModal from '$lib/components/ErrorModal.svelte';
-    DummyServer.start()
+    // DummyServer.start()
 </script>
 
 <ErrorModal/>

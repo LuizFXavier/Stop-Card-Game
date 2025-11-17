@@ -47,7 +47,12 @@ export default class Discard extends GameObject{
 
     receiveCard(card:Card){
         card.setCoords(this.x, this.y)
+        card.isUp = true;
         this.cards.push(card);
+    }
+
+    removeTop(){
+        this.cards.pop();
     }
 
 }

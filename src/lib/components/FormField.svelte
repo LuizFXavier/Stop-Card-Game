@@ -4,8 +4,9 @@
     label:string;
     type:string;
     bind?:string;
+    name?:string
   }
-    let {id, label, type, bind = $bindable()}:Props = $props();
+    let {id, label, type, bind = $bindable(), name=""}:Props = $props();
 
 </script>
 
@@ -13,7 +14,7 @@
         <label for = {id} >
         {label}
         </label>
-        <input bind:value={bind} id={id} type={type}/>
+        <input bind:value={bind} id={id} type={type} name={name}/>
 </section>
 
 <style>

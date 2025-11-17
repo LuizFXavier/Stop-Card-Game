@@ -57,8 +57,8 @@ export class GameRenderer {
         card.width,     // 8. Destination Width (tamanho final)
         card.height     // 9. Destination Height (tamanho final)
       );
-      this.ctx.fillStyle = "#00F";
-      this.ctx.fillRect(card.x, card.y, 4,4)
+      // this.ctx.fillStyle = "#00F";
+      // this.ctx.fillRect(card.x, card.y, 4,4)
       return;
     }
     
@@ -85,8 +85,8 @@ export class GameRenderer {
 
     this.ctx.restore();
 
-    this.ctx.fillStyle = "#00F";
-    this.ctx.fillRect(card.x, card.y, 4,4)
+    // this.ctx.fillStyle = "#00F";
+    // this.ctx.fillRect(card.x, card.y, 4,4)
   }
 
   private drawDownCard(card:Card):void{
@@ -99,8 +99,8 @@ export class GameRenderer {
         card.width,     // 4. Destination Width (tamanho final)
         card.height     // 5. Destination Height (tamanho final)
       );
-      this.ctx.fillStyle = "#00F";
-      this.ctx.fillRect(card.x, card.y, 4,4)
+      // this.ctx.fillStyle = "#00F";
+      // this.ctx.fillRect(card.x, card.y, 4,4)
       return;
     }
     
@@ -123,8 +123,8 @@ export class GameRenderer {
 
     this.ctx.restore();
 
-    this.ctx.fillStyle = "#00F";
-    this.ctx.fillRect(card.x, card.y, 4,4)
+    // this.ctx.fillStyle = "#00F";
+    // this.ctx.fillRect(card.x, card.y, 4,4)
   }
   
   //Método para desenhar um conjunto de cartas
@@ -137,8 +137,8 @@ export class GameRenderer {
   public drawPlayer(player:Player){
     this.drawDeck(player.hand)
     this.drawCard(player.drawnCard)
-    this.ctx.fillStyle = "#F00";
-    this.ctx.fillRect(player.x, player.y, 2,2)
+    // this.ctx.fillStyle = "#F00";
+    // this.ctx.fillRect(player.x, player.y, 2,2)
     
   }
 

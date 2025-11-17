@@ -1,28 +1,24 @@
-<script>
+<script lang="ts">
 	import RoomCard from "./RoomCard.svelte";
 	import Navigation from "./Navigation.svelte";
 	import { isHelpModalOpen } from "$lib/stores/helpStore";
+	import type { PageData } from "./$types";
 
-  const rooms = [
-    { id: 1, name: 'Room ####', nPlayers: 1 },
-    { id: 2, name: 'Room ####', nPlayers: 2 },
-    { id: 3, name: 'Room ####', nPlayers: 3 },
-    { id: 4, name: 'Room ####', nPlayers: 4 },
-    { id: 7, name: 'Room ####', nPlayers: 2 }
-  ];
+  let {data}:{data:PageData} = $props();
+
+  let rooms:{id:string, size:number}[] = $derived(data?.rooms ?? []);
 
 </script>
 
 
-
 <main class="box gray_rectangle">
   <h1 class="title">
-    Created Rooms
+    Created 
   </h1>
   <section class="inner_box box">
     {#each rooms as room (room.id)}
         
-        <RoomCard id={room.id} nPlayers={room.nPlayers}/>
+        <RoomCard id={room.id} nPlayers={room.size}/>
 
     {/each}
     <aside class="scrollbar" aria-hidden="true"></aside>
