@@ -25,7 +25,7 @@ export default class DummyServer{
             console.log("O player " + data.userID + " entrou na sala " + data.roomID)
 
             let joinData:JoinData = {host:0, rules:{a:false}, players:this.players, identifier:0}
-            roomEventBus.emit("server:joinRoom", joinData)
+            roomEventBus.emit("server:joinRoom", joinData as any)
         })
         roomEventBus.on("client:gameStart", () =>{
             roomEventBus.emit("server:gameStart");
@@ -37,7 +37,7 @@ export default class DummyServer{
                 playersCards.push({id:this.players[i].id, cards:cards[i]})
             }
             console.log("Init")
-            roomEventBus.emit("server:gameInit", {playersCards:playersCards, turnId:0})
+            roomEventBus.emit("server:gameInit", {playersCards:playersCards, turn:0})
         })
     }
 
@@ -55,7 +55,7 @@ export default class DummyServer{
         gameEventBus.on("player:discard", ()=>{
             console.log("Player descartou")
 
-            gameEventBus.emit("network:discard", {playerId:0})
+            gameEventBus.emit("network:discard")
         })
         gameEventBus.on("game:endTurn", ()=>{
             gameEventBus.emit("network:passTurn",{turn:++this.turn})
