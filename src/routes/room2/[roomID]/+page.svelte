@@ -1,5 +1,5 @@
 <script lang='ts'>
-	import type { PageData } from "../$types";
+	import type { PageData } from "./$types";
 
     import type {colocacao} from "$lib/types/colocacao"
 
@@ -61,7 +61,7 @@
         <Lobby {salaID} {listaPlayers} {configRegras} {isHost}/>
     
     {:else}
-        <Game  {listaPlayers} {playerName} {salaID}/>
+        <Game  {listaPlayers} {playerName} {salaID} {roomState}/>
     {/if}
 </main>
 
